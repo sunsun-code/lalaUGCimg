@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>라라스윗 BP 이미지 툴</title>
+<style>
+  :root {
+    --navy: #0F1B2D;
+    --navy-light: #2A3F5A;
+    --coral: #E8593C;
+    --coral-pale: #FDF0EC;
+    --white: #FFFFFF;
+    --gray-100: #F6F7F8;
+    --gray-200: #ECEEF0;
+    --gray-400: #B0B8C1;
+    --gray-600: #6B7684;
+    --gray-800: #333D4B;
+    --success: #12B886;
+    --danger: #E8593C;
+    --font: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    --radius: 10px; --radius-lg: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--gray-100); color: var(--gray-800); font-size: 14px; line-height: 1.6; }
+
+  header { background: var(--navy); padding: 0 32px; display: flex; align-items: center; gap: 20px; height: 56px; position: sticky; top: 0; z-index: 100; }
+  .logo { font-size: 15px; font-weight: 700; color: var(--white); letter-spacing: -0.3px; }
+  .logo span { color: var(--coral); }
+  .hbadge { font-size: 11px; background: var(--navy-light); color: var(--gray-400); padding: 3px 8px; border-radius: 4px; }
+
+  .tab-bar { background: var(--navy); padding: 0 32px; display: flex; gap: 4px; border-top: 1px solid var(--navy-light); }
+  .tab-btn { padding: 10px 18px; font-size: 13px; font-weight: 500; color: var(--gray-400); border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; }
+  .tab-btn.active { color: var(--white); border-bottom-color: var(--coral); }
+  .tab-btn:hover:not(.active) { color: var(--gray-200); }
+
+  .main { max-width: 960px; margin: 0 auto; padding: 32px 24px 80px; }
+  .tab-panel { display: none; } .tab-panel.active { display: block; }
+
+  .card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); padding: 24px; margin-bottom: 16px; }
+  .card-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .card-sub { font-size: 13px; color: var(--gray-600); margin-bottom: 16px; }
+  .sec-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 12px; }
+
+  .flow-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 24px; }
+  .flow-step { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 16px; position: relative; }
+  .flow-step::after { content:'→'; position:absolute; right:-14px; top:50%; transform:translateY(-50%); color:var(--gray-400); font-size:16px; }
+  .flow-step:last-child::after { display:none; }
+  .step-num { font-size:11px; font-weight:700; color:var(--coral); letter-spacing:.5px; margin-bottom:6px; }
+  .step-name { font-size:13px; font-weight:700; color:var(--navy); margin-bottom:4px; }
+  .step-desc { font-size:12px; color:var(--gray-600); line-height:1.5; }
+
+  .qc-list { list-style:none; display:flex; flex-direction:column; gap:8px; }
+  .qc-item { display:flex; align-items:flex-start; gap:10px; padding:12px 14px; background:var(--gray-100); border-radius:8px; border:1px solid var(--gray-200); cursor:pointer; user-select:none; transition:background .1s; }
+  .qc-item:hover { background:var(--gray-200); }
+  .qc-item.checked { background:#EDFAF4; border-color:#12B886; }
+  .qc-check { width:18px; height:18px; border-radius:4px; border:1.5px solid var(--gray-400); flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  .qc-item.checked .qc-check { background:var(--success); border-color:var(--success); }
+  .qc-mark { color:white; font-size:11px; display:none; }
+  .qc-item.checked .qc-mark { display:block; }
+  .qc-label { font-size:13px; color:var(--gray-800); font-weight:500; }
+  .qc-detail { font-size:12px; color:var(--gray-600); margin-top:2px; }
+  .qc-tag { font-size:11px; padding:2px 7px; border-radius:4px; font-weight:600; flex-shrink:0; margin-top:2px; }
+  .tag-hook { background:#FFF3E0; color:#E65100; }
+  .tag-ai { background:#EDE7F6; color:#4527A0; }
+  .tag-brand { background:#E3F2FD; color:#0D47A1; }
+
+  .prompt-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .prompt-table th { text-align:left; padding:8px 12px; font-size:11px; font-weight:600; color:var(--gray-600); letter-spacing:.5px; border-bottom:1px solid var(--gray-200); background:var(--gray-100); }
+  .prompt-table td { padding:10px 12px; border-bottom:1px solid var(--gray-200); vertical-align:top; }
+  .prompt-table tr:last-child td { border-bottom:none; }
+  .sp-badge { display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; background:var(--coral-pale); color:var(--coral); }
+  .copy-btn { font-size:11px; padding:3px 8px; border-radius:4px; border:1px solid var(--gray-200); background:var(--white); color:var(--gray-600); cursor:pointer; }
+  .copy-btn:hover { background:var(--gray-100); }
+  .copy-btn.copied { background:#EDFAF4; color:var(--success); border-color:var(--success); }
+
+  /* ── generate ── */
+  .gen-layout { display:grid; grid-template-columns:380px 1fr; gap:20px; align-items:start; }
+  .input-panel { position:sticky; top:108px; }
+  label.fl { display:block; font-size:12px; font-weight:600; color:var(--gray-600); margin-bottom:6px; letter-spacing:.3px; }
+  .fg { margin-bottom:14px; }
+  select, textarea, input[type=text] { width:100%; padding:10px 12px; border:1px solid var(--gray-200); border-radius:8px; font-family:var(--font); font-size:13px; color:var(--gray-800); background:var(--white); outline:none; transition:border-color .15s; resize:vertical; }
+  select:focus, textarea:focus, input[type=text]:focus { border-color:var(--coral); }
+
+  /* sp tags */
+  .sp-tags { display:flex; gap:8px; }
+  .sp-tag { padding:9px 20px; border-radius:8px; border:1.5px solid var(--gray-200); background:var(--white); cursor:pointer; font-size:13px; font-weight:600; color:var(--gray-600); transition:border-color .15s,background .15s,color .15s; font-family:var(--font); }
+  .sp-tag:hover { border-color:var(--coral); color:var(--coral); }
+  .sp-tag.active { border-color:var(--coral); background:var(--coral-pale); color:var(--coral); }
+
+  /* upload */
+  .upload-box { width:100%; height:120px; border:1.5px dashed var(--gray-200); border-radius:10px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:border-color .15s,background .15s; overflow:hidden; position:relative; background:var(--gray-100); }
+  .upload-box:hover { border-color:var(--coral); background:var(--coral-pale); }
+  .upload-box.has-img { border-style:solid; border-color:var(--gray-200); }
+  .uph { display:flex; flex-direction:column; align-items:center; pointer-events:none; }
+  .uph-icon { font-size:22px; margin-bottom:4px; }
+  .uph-label { font-size:13px; font-weight:500; color:var(--gray-600); }
+  .uph-sub { font-size:11px; color:var(--gray-400); margin-top:2px; }
+  .upload-box img.preview { display:none; width:100%; height:100%; object-fit:cover; }
+  .rm-btn { position:absolute; top:6px; right:6px; width:22px; height:22px; border-radius:50%; background:rgba(0,0,0,.45); color:white; font-size:12px; border:none; cursor:pointer; display:none; align-items:center; justify-content:center; z-index:2; }
+  .upload-box.has-img .rm-btn { display:flex; }
+
+  .gen-btn { width:100%; padding:13px; background:var(--coral); color:var(--white); font-family:var(--font); font-size:14px; font-weight:700; border:none; border-radius:10px; cursor:pointer; transition:background .15s,transform .1s; margin-top:4px; }
+  .gen-btn:hover { background:#D44E32; }
+  .gen-btn:active { transform:scale(.98); }
+  .gen-btn:disabled { background:var(--gray-400); cursor:not-allowed; }
+
+  .result-panel { min-height:300px; }
+  .result-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; height:300px; background:var(--white); border:1.5px dashed var(--gray-200); border-radius:var(--radius-lg); color:var(--gray-400); gap:8px; }
+  .result-empty .r-icon { font-size:32px; }
+  .result-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+  .result-card { background:var(--white); border:1px solid var(--gray-200); border-radius:var(--radius-lg); overflow:hidden; }
+  .result-card img { width:100%; aspect-ratio:1; object-fit:cover; display:block; }
+  .result-card-foot { padding:10px 12px; display:flex; align-items:center; justify-content:space-between; }
+  .sdot { width:8px; height:8px; border-radius:50%; background:var(--gray-200); cursor:pointer; display:inline-block; margin:0 2px; vertical-align:middle; transition:background .1s; }
+  .sdot.pass { background:var(--success); } .sdot.fail { background:var(--danger); }
+  .dl-btn { font-size:11px; padding:4px 10px; border-radius:6px; border:1px solid var(--gray-200); background:var(--gray-100); color:var(--gray-600); cursor:pointer; text-decoration:none; }
+  .dl-btn:hover { background:var(--gray-200); }
+
+  .loading-wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; height:300px; background:var(--white); border-radius:var(--radius-lg); gap:16px; }
+  .spinner { width:36px; height:36px; border:3px solid var(--gray-200); border-top-color:var(--coral); border-radius:50%; animation:spin .8s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .loading-msg { font-size:13px; color:var(--gray-600); }
+
+  .notice { font-size:12px; color:var(--gray-600); background:var(--gray-100); border:1px solid var(--gray-200); border-radius:8px; padding:10px 14px; margin-bottom:14px; line-height:1.6; }
+  .notice strong { color:var(--navy); }
+
+  /* dod */
+  .dod-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .dod-item { font-size:13px; padding:10px 12px; border-radius:8px; }
+  .dod-do { background:#EDFAF4; border:1px solid #B2F2D8; }
+  .dod-dont { background:#FFF5F5; border:1px solid #FFD6CC; }
+
+  /* settings */
+  .api-row { display:flex; gap:8px; align-items:center; }
+  .api-row input { font-family:monospace; font-size:12px; width:100%; padding:10px 12px; border:1px solid var(--gray-200); border-radius:8px; outline:none; }
+  .api-saved { font-size:12px; color:var(--success); display:none; margin-top:6px; }
+
+  @media(max-width:700px){
+    .flow-grid,.dod-grid { grid-template-columns:1fr; }
+    .flow-step::after { display:none; }
+    .gen-layout { grid-template-columns:1fr; }
+    .input-panel { position:static; }
+    .result-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">라라스윗 <span>BP</span> 이미지 툴</div>
+  <div class="hbadge">사내용 v1.2</div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('guide',this)">가이드</button>
+  <button class="tab-btn" onclick="switchTab('generate',this)">이미지 생성</button>
+  <button class="tab-btn" onclick="switchTab('settings',this)">설정</button>
+</div>
+
+<div class="main">
+
+  <!-- ══ GUIDE ══ -->
+  <div id="tab-guide" class="tab-panel active">
+    <div class="sec-label">전체 플로우</div>
+    <div class="flow-grid">
+      <div class="flow-step"><div class="step-num">STEP 1</div><div class="step-name">인풋 준비</div><div class="step-desc">BP 원물 사진 + 제품 정보 사진 업로드</div></div>
+      <div class="flow-step"><div class="step-num">STEP 2</div><div class="step-name">AI 생성</div><div class="step-desc">ChatGPT 자체 엔진으로 배치 출력</div></div>
+      <div class="flow-step"><div class="step-num">STEP 3</div><div class="step-name">품질 검수</div><div class="step-desc">생성된 이미지 쓸 수 있는지 없는지 확인</div></div>
+      <div class="flow-step"><div class="step-num">STEP 4</div><div class="step-name">후처리·배포</div><div class="step-desc">PS 배치 → 리사이즈 → Meta 업로드</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">꿀팁 — DO / DON'T</div>
+      <div class="card-sub">이미지 품질을 결정하는 핵심 원칙입니다.</div>
+      <div class="dod-grid">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--success);letter-spacing:1px;margin-bottom:10px;">DO</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div class="dod-item dod-do">BP 원물사진 + 제품 정보 사진 둘 다 넣기 → 프롬프트 없이도 고감도 후기 사진 제작 가능</div>
+            <div class="dod-item dod-do">프롬프트는 짧고 명료하게, 1~2단계 이내로</div>
+            <div class="dod-item dod-do">원하는 것만 분명하게 — 말이 길어질수록 퀄리티 떨어짐</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--danger);letter-spacing:1px;margin-bottom:10px;">DON'T</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div class="dod-item dod-dont">제품 질감과 맞지 않는 BP 사용 → AI 질감 극대화되며 가공된 느낌 남</div>
+            <div class="dod-item dod-dont">복잡한 프롬프트 3단계 이상 → AI 질감 죽어남</div>
+            <div class="dod-item dod-dont">AI 노이즈 들어간 이미지 재사용 → 반복될수록 질감 이색해짐</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">품질 검수 안내</div>
+      <div class="card-sub">생성된 이미지를 광고 소재로 쓸 수 있는지 아래 기준으로 판단하세요.</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--gray-100);border-radius:8px;border:1px solid var(--gray-200);">
+          <span style="font-size:16px;flex-shrink:0;">🔍</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--gray-800);margin-bottom:2px;">단면이 잘 보이는가</div><div style="font-size:12px;color:var(--gray-600);">소재·질감이 화면 절반 이상 차지하고 있으면 통과</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--gray-100);border-radius:8px;border:1px solid var(--gray-200);">
+          <span style="font-size:16px;flex-shrink:0;">✋</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--gray-800);margin-bottom:2px;">손·텍스트가 이상하게 나오지 않았는가</div><div style="font-size:12px;color:var(--gray-600);">손가락 개수 이상, 글자 깨짐, 형태 왜곡 없으면 통과</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--gray-100);border-radius:8px;border:1px solid var(--gray-200);">
+          <span style="font-size:16px;flex-shrink:0;">🎨</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--gray-800);margin-bottom:2px;">색감·분위기가 라라스윗 톤과 맞는가</div><div style="font-size:12px;color:var(--gray-600);">채도 너무 높거나 배경 지저분하면 탈락</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--coral-pale);border-radius:8px;border:1px solid #F5C4B3;">
+          <span style="font-size:16px;flex-shrink:0;">💡</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:2px;">최종 판단 기준</div><div style="font-size:12px;color:var(--gray-600);">팀장 없이 혼자 판단했을 때 확신이 80% 이상이면 사용 풀에 올리세요.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">SP별 프롬프트 뱅크</div>
+      <div class="card-sub">복사해서 생성 탭 직접 입력에 붙여넣으세요. [제품명]·[색상] 부분만 바꿔서 씁니다.</div>
+      <table class="prompt-table">
+        <thead><tr><th style="width:100px">SP 유형</th><th>프롬프트</th><th style="width:60px"></th></tr></thead>
+        <tbody>
+          <tr><td><span class="sp-badge">제품질감컷</span></td><td style="font-size:12px;color:var(--gray-600);">Close-up cross-section of [제품명] ice cream bar, showing rich [색상] interior texture, natural soft light, food photography, ultra realistic, no text</td><td><button class="copy-btn" onclick="copyPrompt(this)">복사</button></td></tr>
+          <tr><td><span class="sp-badge">제품질감컷</span></td><td style="font-size:12px;color:var(--gray-600);">Macro food photo of [제품명] ice cream, [토핑/재료] topping texture emphasized, held by hand from below, outdoor daylight, authentic UGC style, no logo</td><td><button class="copy-btn" onclick="copyPrompt(this)">복사</button></td></tr>
+          <tr><td><span class="sp-badge">패키지컷</span></td><td style="font-size:12px;color:var(--gray-600);">Lifestyle photo of [제품명] ice cream packaging, outdoor summer setting, person holding naturally, Korean SNS aesthetic, clean background, no text overlay</td><td><button class="copy-btn" onclick="copyPrompt(this)">복사</button></td></tr>
+          <tr><td><span class="sp-badge">패키지컷</span></td><td style="font-size:12px;color:var(--gray-600);">Premium product shot of [제품명] packaging on dark slate surface, dramatic side lighting, high-end editorial style, fresh fruits around it</td><td><button class="copy-btn" onclick="copyPrompt(this)">복사</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">탈락 이미지 피드백 기록</div>
+      <div class="card-sub">이미지 생성 탭에서 탈락 점을 클릭하면 이미지와 메모가 함께 저장됩니다.</div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <button onclick="showFeedback()" style="font-size:13px;padding:8px 16px;background:var(--white);color:var(--gray-600);border:1px solid var(--gray-200);border-radius:8px;cursor:pointer;">기록 보기 / 닫기</button>
+        <button onclick="clearFeedback()" style="font-size:13px;padding:8px 16px;background:var(--white);color:var(--danger);border:1px solid #FFD6CC;border-radius:8px;cursor:pointer;">전체 삭제</button>
+      </div>
+      <div id="feedbackLog" style="font-size:12px;color:var(--gray-600);display:none;"></div>
+    </div>
+  </div>
+
+
+  <!-- ══ GENERATE ══ -->
+  <div id="tab-generate" class="tab-panel">
+    <div class="gen-layout">
+      <div class="input-panel">
+        <div class="notice">
+          <strong>사용법</strong><br>
+          BP 원물 사진을 업로드하면 AI가 질감을 분석해서 반영해 생성합니다. 제품 정보 사진도 같이 넣으면 정확도가 높아집니다.
+        </div>
+        <div class="card" style="margin-bottom:0">
+          <div class="card-title" style="margin-bottom:16px">이미지 생성 설정</div>
+
+          <div class="fg">
+            <label class="fl">BP 원물 사진 <span style="color:var(--coral)">*</span></label>
+            <div class="upload-box" id="bpBox" onclick="document.getElementById('bpInput').click()">
+              <div class="uph" id="bpPh"><div class="uph-icon">📷</div><div class="uph-label">클릭해서 업로드</div><div class="uph-sub">단면·질감 기준컷</div></div>
+              <img class="preview" id="bpPreview">
+              <button class="rm-btn" onclick="removeImg(event,'bpInput','bpPreview','bpPh','bpBox')">✕</button>
+            </div>
+            <input type="file" id="bpInput" accept="image/*" style="display:none" onchange="prevImg(this,'bpPreview','bpPh','bpBox')">
+          </div>
+
+          <div class="fg">
+            <label class="fl">제품 정보 사진 <span style="color:var(--gray-400)">(선택)</span></label>
+            <div class="upload-box" id="infoBox" onclick="document.getElementById('infoInput').click()">
+              <div class="uph" id="infoPh"><div class="uph-icon">📄</div><div class="uph-label">클릭해서 업로드</div><div class="uph-sub">자사품 자료·패키지 등</div></div>
+              <img class="preview" id="infoPreview">
+              <button class="rm-btn" onclick="removeImg(event,'infoInput','infoPreview','infoPh','infoBox')">✕</button>
+            </div>
+            <input type="file" id="infoInput" accept="image/*" style="display:none" onchange="prevImg(this,'infoPreview','infoPh','infoBox')">
+          </div>
+
+          <div class="fg">
+            <label class="fl">컷 유형</label>
+            <div class="sp-tags">
+              <button class="sp-tag active" data-sp="texture" onclick="selectSP(this)">제품질감컷</button>
+              <button class="sp-tag" data-sp="package" onclick="selectSP(this)">패키지컷</button>
+            </div>
+          </div>
+
+          <div class="fg">
+            <label class="fl">프롬프트 직접 입력 <span style="color:var(--gray-400)">(선택 — 가이드 탭 뱅크에서 복사)</span></label>
+            <textarea id="customPrompt" rows="3" placeholder="예: 1번 이미지에 2번 아이스크림의 질감과 색을 적용해줘"></textarea>
+          </div>
+
+          <div class="fg">
+            <label class="fl">생성 장수</label>
+            <select id="imageCount">
+              <option value="1">1장</option>
+              <option value="2">2장</option>
+              <option value="3" selected>3장</option>
+            </select>
+          </div>
+
+          <button class="gen-btn" id="genBtn" onclick="generateImages()">이미지 생성하기</button>
+        </div>
+      </div>
+
+      <div class="result-panel">
+        <div id="resultEmpty" class="result-empty">
+          <div class="r-icon">🖼</div>
+          <p>BP 사진을 업로드하고 생성 버튼을 눌러주세요</p>
+        </div>
+        <div id="resultLoading" class="loading-wrap" style="display:none">
+          <div class="spinner"></div>
+          <div class="loading-msg" id="loadingMsg">이미지 생성 중...</div>
+        </div>
+        <div id="resultGrid" class="result-grid" style="display:none"></div>
+        <div id="resultError" style="display:none;padding:20px;background:var(--white);border-radius:var(--radius-lg);border:1px solid #FFE0D6;color:var(--danger);font-size:13px;line-height:1.6;"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══ SETTINGS ══ -->
+  <div id="tab-settings" class="tab-panel">
+    <div class="card" style="max-width:480px">
+      <div class="card-title">OpenAI API 키 설정</div>
+      <div class="card-sub">브라우저 로컬 스토리지에만 저장됩니다. 서버로 전송되지 않습니다.</div>
+      <div class="fg">
+        <label class="fl">API 키</label>
+        <div class="api-row">
+          <input type="password" id="apiKeyInput" placeholder="sk-...">
+          <button onclick="saveApiKey()" style="flex-shrink:0;padding:10px 16px;background:var(--navy);color:white;border:none;border-radius:8px;cursor:pointer;font-size:13px;">저장</button>
+        </div>
+        <div class="api-saved" id="apiSaved">저장되었습니다 ✓</div>
+      </div>
+      <div class="notice" style="margin-top:8px;margin-bottom:0">API 키는 <strong>OpenAI Platform</strong>(platform.openai.com)에서 발급받을 수 있습니다.</div>
+    </div>
+    <div class="card" style="max-width:480px">
+      <div class="card-title">데이터 관리</div>
+      <div class="card-sub">로컬에 저장된 API 키와 피드백 기록을 삭제합니다.</div>
+      <button onclick="clearAll()" style="font-size:13px;padding:8px 16px;background:var(--white);color:var(--danger);border:1px solid #FFD6CC;border-radius:8px;cursor:pointer;">모든 데이터 삭제</button>
+    </div>
+  </div>
+
+</div>
+<!-- ══ FEEDBACK MODAL ══ -->
+<div id="feedbackModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center;padding:24px;">
+  <div style="background:var(--white);border-radius:var(--radius-lg);padding:24px;width:100%;max-width:400px;">
+    <div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:16px;">탈락 피드백 저장</div>
+    <img id="modalImg" src="" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;margin-bottom:14px;border:1px solid var(--gray-200);">
+    <label class="fl" style="margin-bottom:6px;">탈락 원인 메모</label>
+    <textarea id="modalMemo" rows="3" placeholder="예: 손 왜곡 심함 / 배경 너무 어두움 / 제품 색감 틀림" style="width:100%;padding:10px 12px;border:1px solid var(--gray-200);border-radius:8px;font-family:var(--font);font-size:13px;resize:none;outline:none;margin-bottom:14px;"></textarea>
+    <div style="display:flex;gap:8px;">
+      <button onclick="submitFeedback()" style="flex:1;padding:11px;background:var(--coral);color:white;font-family:var(--font);font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;">저장</button>
+      <button onclick="closeFeedbackModal()" style="padding:11px 18px;background:var(--white);color:var(--gray-600);font-family:var(--font);font-size:13px;border:1px solid var(--gray-200);border-radius:8px;cursor:pointer;">취소</button>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function prevImg(input, previewId, phId, boxId) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const p = document.getElementById(previewId);
+    p.src = e.target.result; p.style.display = 'block';
+    document.getElementById(phId).style.display = 'none';
+    document.getElementById(boxId).classList.add('has-img');
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeImg(e, inputId, previewId, phId, boxId) {
+  e.stopPropagation();
+  document.getElementById(inputId).value = '';
+  const p = document.getElementById(previewId); p.src = ''; p.style.display = 'none';
+  document.getElementById(phId).style.display = 'flex';
+  document.getElementById(boxId).classList.remove('has-img');
+}
+
+function fileToBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+let selectedSP = 'texture';
+function selectSP(btn) {
+  document.querySelectorAll('.sp-tag').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedSP = btn.dataset.sp;
+}
+
+function buildPrompt() {
+  const custom = document.getElementById('customPrompt').value.trim();
+  if (custom) return custom;
+  const spMap = {
+    texture: 'Close-up cross-section shot showing rich interior texture and fruit ingredients. Natural light, food photography style, authentic UGC feel, no text, no logo.',
+    package: 'Lifestyle shot featuring the product packaging prominently. Outdoor or cafe setting, held by hand, Korean SNS aesthetic, clean background, no text overlay.'
+  };
+  return 'Based on these reference photos, generate a high-quality food photography image. Style: ' + spMap[selectedSP] + ' Keep the authentic texture and color of the actual product. Do not add text or logos.';
+}
+
+async function generateImages() {
+  const apiKey = localStorage.getItem('ls_api_key');
+  if (!apiKey) { alert('먼저 설정 탭에서 API 키를 입력해주세요.'); return; }
+
+  const bpFile = document.getElementById('bpInput').files[0];
+  if (!bpFile) { alert('BP 원물 사진을 업로드해주세요.'); return; }
+
+  const count = parseInt(document.getElementById('imageCount').value);
+  const btn = document.getElementById('genBtn');
+  btn.disabled = true;
+
+  document.getElementById('resultEmpty').style.display = 'none';
+  document.getElementById('resultGrid').style.display = 'none';
+  document.getElementById('resultError').style.display = 'none';
+  document.getElementById('resultLoading').style.display = 'flex';
+
+  const msgs = ['사진 분석 중...', '이미지 생성 중... (20~40초 소요)', '거의 다 됐어요...'];
+  let mi = 0;
+  const ticker = setInterval(() => {
+    document.getElementById('loadingMsg').textContent = msgs[Math.min(mi++, msgs.length-1)];
+  }, 10000);
+
+  try {
+    const bpData = await fileToBase64(bpFile);
+    const infoFile = document.getElementById('infoInput').files[0];
+    let infoData = null;
+    if (infoFile) infoData = await fileToBase64(infoFile);
+
+    const prompt = buildPrompt();
+
+    const contentParts = [
+      { type: 'input_image', image_url: bpData }
+    ];
+    if (infoData) contentParts.push({ type: 'input_image', image_url: infoData });
+    contentParts.push({ type: 'input_text', text: prompt });
+
+    const results = [];
+    for (let i = 0; i < count; i++) {
+      const res = await fetch('https://api.openai.com/v1/responses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          input: [{ role: 'user', content: contentParts }],
+          tools: [{ type: 'image_generation', quality: 'high', size: '1024x1024' }]
+        })
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error?.message || '생성 실패 (status ' + res.status + ')');
+      }
+
+      const data = await res.json();
+      const imgOutput = data.output?.find(o => o.type === 'image_generation_call');
+      if (imgOutput?.result) {
+        results.push('data:image/png;base64,' + imgOutput.result);
+      } else {
+        throw new Error('이미지 결과를 받지 못했습니다.');
+      }
+    }
+
+    clearInterval(ticker);
+    renderResults(results);
+  } catch(e) {
+    clearInterval(ticker);
+    document.getElementById('resultLoading').style.display = 'none';
+    const errEl = document.getElementById('resultError');
+    errEl.style.display = 'block';
+    errEl.textContent = '오류: ' + e.message;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function renderResults(dataUrls) {
+  document.getElementById('resultLoading').style.display = 'none';
+  const grid = document.getElementById('resultGrid');
+  grid.innerHTML = ''; grid.style.display = 'grid';
+  dataUrls.forEach((url, i) => {
+    const card = document.createElement('div');
+    card.className = 'result-card';
+    card.innerHTML = `
+      <img src="${url}" alt="생성 이미지 ${i+1}">
+      <div class="result-card-foot">
+        <div style="font-size:12px;color:var(--gray-600)">품질 검수
+          <span class="sdot" title="통과" onclick="markStatus(this,'pass')"></span>
+          <span class="sdot" title="탈락" onclick="openFeedbackModal(this,'${url}')"></span>
+        </div>
+        <a href="${url}" download="bp-${i+1}.png" class="dl-btn">저장</a>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function markStatus(dot, s) {
+  dot.parentElement.querySelectorAll('.sdot').forEach(d => d.className = 'sdot');
+  dot.classList.add(s);
+}
+
+let _feedbackImgUrl = null;
+let _feedbackDot = null;
+
+function openFeedbackModal(dot, imgUrl) {
+  _feedbackImgUrl = imgUrl;
+  _feedbackDot = dot;
+  document.getElementById('modalImg').src = imgUrl;
+  document.getElementById('modalMemo').value = '';
+  document.getElementById('feedbackModal').style.display = 'flex';
+}
+
+function closeFeedbackModal() {
+  document.getElementById('feedbackModal').style.display = 'none';
+  _feedbackImgUrl = null;
+  _feedbackDot = null;
+}
+
+function submitFeedback() {
+  const memo = document.getElementById('modalMemo').value.trim();
+  const logs = JSON.parse(localStorage.getItem('ls_feedback') || '[]');
+  logs.unshift({
+    imgUrl: _feedbackImgUrl,
+    memo: memo || '메모 없음',
+    date: new Date().toLocaleDateString('ko-KR')
+  });
+  localStorage.setItem('ls_feedback', JSON.stringify(logs.slice(0, 50)));
+  if (_feedbackDot) {
+    _feedbackDot.parentElement.querySelectorAll('.sdot').forEach(d => d.className = 'sdot');
+    _feedbackDot.classList.add('fail');
+  }
+  closeFeedbackModal();
+}
+
+function toggleQC(item) { item.classList.toggle('checked'); updateQCScore(); }
+function resetQC() { document.querySelectorAll('.qc-item').forEach(i => i.classList.remove('checked')); updateQCScore(); }
+function updateQCScore() {
+  const total = document.querySelectorAll('.qc-item').length;
+  const checked = document.querySelectorAll('.qc-item.checked').length;
+  const el = document.getElementById('qcScore');
+  if (!checked) { el.textContent = ''; return; }
+  if (checked === total) { el.textContent = '✓ 모두 통과 — 사용 풀 등록 가능'; el.style.color = '#12B886'; }
+  else { el.textContent = checked + ' / ' + total + ' 항목 통과'; el.style.color = '#F59F00'; }
+}
+
+function copyPrompt(btn) {
+  const text = btn.closest('tr').querySelector('td:nth-child(2)').textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '복사됨'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
+function clearFeedback() {
+  if (!confirm('피드백 기록을 모두 삭제할까요?')) return;
+  localStorage.removeItem('ls_feedback');
+  const el = document.getElementById('feedbackLog');
+  el.innerHTML = '<p style="color:var(--gray-400);font-size:13px;">기록이 없습니다.</p>';
+}
+
+function showFeedback() {
+  const logs = JSON.parse(localStorage.getItem('ls_feedback') || '[]');
+  const el = document.getElementById('feedbackLog');
+  if (el.style.display === 'block') { el.style.display = 'none'; return; }
+  el.style.display = 'block';
+  if (!logs.length) { el.innerHTML = '<p style="color:var(--gray-400);font-size:13px;">기록이 없습니다.</p>'; return; }
+  el.innerHTML = logs.map(l => `
+    <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--gray-200);">
+      ${l.imgUrl ? `<img src="${l.imgUrl}" style="width:64px;height:64px;object-fit:cover;border-radius:8px;flex-shrink:0;border:1px solid var(--gray-200);">` : ''}
+      <div>
+        <div style="font-size:11px;color:var(--gray-400);margin-bottom:4px;">${l.date}</div>
+        <div style="font-size:13px;color:var(--gray-800);">${l.memo || l.text || '메모 없음'}</div>
+      </div>
+    </div>`).join('');
+}
+
+function saveApiKey() {
+  const val = document.getElementById('apiKeyInput').value.trim();
+  if (!val) return;
+  localStorage.setItem('ls_api_key', val);
+  document.getElementById('apiSaved').style.display = 'block';
+  setTimeout(() => document.getElementById('apiSaved').style.display = 'none', 2000);
+}
+
+function clearAll() {
+  if (!confirm('API 키와 피드백 기록을 모두 삭제할까요?')) return;
+  ['ls_api_key','ls_feedback'].forEach(k => localStorage.removeItem(k));
+  document.getElementById('apiKeyInput').value = '';
+  alert('삭제되었습니다.');
+}
+
+window.addEventListener('load', () => {
+  const key = localStorage.getItem('ls_api_key');
+  if (key) document.getElementById('apiKeyInput').value = key;
+});
+</script>
+</body>
+</html>
