@@ -24,15 +24,16 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: var(--font); background: var(--gray-100); color: var(--gray-800); font-size: 14px; line-height: 1.6; }
 
-  header { background: var(--navy); padding: 0 32px; display: flex; align-items: center; gap: 20px; height: 56px; position: sticky; top: 0; z-index: 100; }
-  .logo { font-size: 15px; font-weight: 700; color: var(--white); letter-spacing: -0.3px; }
-  .logo span { color: var(--coral); }
-  .hbadge { font-size: 11px; background: var(--navy-light); color: var(--gray-400); padding: 3px 8px; border-radius: 4px; }
+  header { background: #F9FAFF; border-bottom: 1px solid #E2E8F4; padding: 0 32px; display: flex; align-items: center; gap: 16px; height: 48px; position: sticky; top: 0; z-index: 100; }
+  .logo { font-size: 13px; font-weight: 700; color: #2D68C4; letter-spacing: -0.3px; }
+  .nav-link { font-size: 12px; color: #6B7684; text-decoration: none; padding: 4px 10px; border-radius: 6px; transition: all 0.12s; white-space: nowrap; }
+  .nav-link:hover { background: #E8EFFC; color: #2D68C4; }
+  .nav-link.active { background: #2D68C4; color: #F9FAFF; font-weight: 500; }
 
-  .tab-bar { background: var(--navy); padding: 0 32px; display: flex; gap: 4px; border-top: 1px solid var(--navy-light); }
-  .tab-btn { padding: 10px 18px; font-size: 13px; font-weight: 500; color: var(--gray-400); border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; }
-  .tab-btn.active { color: var(--white); border-bottom-color: var(--coral); }
-  .tab-btn:hover:not(.active) { color: var(--gray-200); }
+  .tab-bar { background: #F9FAFF; border-bottom: 1px solid #E2E8F4; padding: 0 32px; display: flex; gap: 4px; }
+  .tab-btn { padding: 10px 18px; font-size: 13px; font-weight: 500; color: var(--gray-600); border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; }
+  .tab-btn.active { color: #2D68C4; border-bottom-color: #2D68C4; }
+  .tab-btn:hover:not(.active) { color: var(--gray-800); }
 
   .main { max-width: 960px; margin: 0 auto; padding: 32px 24px 80px; }
   .tab-panel { display: none; } .tab-panel.active { display: block; }
@@ -74,21 +75,18 @@
   .copy-btn:hover { background:var(--gray-100); }
   .copy-btn.copied { background:#EDFAF4; color:var(--success); border-color:var(--success); }
 
-  /* ── generate ── */
   .gen-layout { display:grid; grid-template-columns:380px 1fr; gap:20px; align-items:start; }
-  .input-panel { position:sticky; top:108px; }
+  .input-panel { position:sticky; top:96px; }
   label.fl { display:block; font-size:12px; font-weight:600; color:var(--gray-600); margin-bottom:6px; letter-spacing:.3px; }
   .fg { margin-bottom:14px; }
   select, textarea, input[type=text] { width:100%; padding:10px 12px; border:1px solid var(--gray-200); border-radius:8px; font-family:var(--font); font-size:13px; color:var(--gray-800); background:var(--white); outline:none; transition:border-color .15s; resize:vertical; }
   select:focus, textarea:focus, input[type=text]:focus { border-color:var(--coral); }
 
-  /* sp tags */
   .sp-tags { display:flex; gap:8px; }
   .sp-tag { padding:9px 20px; border-radius:8px; border:1.5px solid var(--gray-200); background:var(--white); cursor:pointer; font-size:13px; font-weight:600; color:var(--gray-600); transition:border-color .15s,background .15s,color .15s; font-family:var(--font); }
   .sp-tag:hover { border-color:var(--coral); color:var(--coral); }
   .sp-tag.active { border-color:var(--coral); background:var(--coral-pale); color:var(--coral); }
 
-  /* upload */
   .upload-box { width:100%; height:120px; border:1.5px dashed var(--gray-200); border-radius:10px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:border-color .15s,background .15s; overflow:hidden; position:relative; background:var(--gray-100); }
   .upload-box:hover { border-color:var(--coral); background:var(--coral-pale); }
   .upload-box.has-img { border-style:solid; border-color:var(--gray-200); }
@@ -125,13 +123,11 @@
   .notice { font-size:12px; color:var(--gray-600); background:var(--gray-100); border:1px solid var(--gray-200); border-radius:8px; padding:10px 14px; margin-bottom:14px; line-height:1.6; }
   .notice strong { color:var(--navy); }
 
-  /* dod */
   .dod-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
   .dod-item { font-size:13px; padding:10px 12px; border-radius:8px; }
   .dod-do { background:#EDFAF4; border:1px solid #B2F2D8; }
   .dod-dont { background:#FFF5F5; border:1px solid #FFD6CC; }
 
-  /* settings */
   .api-row { display:flex; gap:8px; align-items:center; }
   .api-row input { font-family:monospace; font-size:12px; width:100%; padding:10px 12px; border:1px solid var(--gray-200); border-radius:8px; outline:none; }
   .api-saved { font-size:12px; color:var(--success); display:none; margin-top:6px; }
@@ -148,8 +144,11 @@
 <body>
 
 <header>
-  <div class="logo">라라스윗 <span>BP</span> 이미지 툴</div>
-  <div class="hbadge">사내용 v1.2</div>
+  <div class="logo">라라스윗 TOOLS</div>
+  <nav style="display:flex; gap:4px; margin-left:8px;">
+    <a href="/" class="nav-link active">BP 이미지 자동화</a>
+    <a href="/copy-gen" class="nav-link">공지문 카피 생성기</a>
+  </nav>
 </header>
 
 <div class="tab-bar">
@@ -241,7 +240,6 @@
     </div>
   </div>
 
-
   <!-- ══ GENERATE ══ -->
   <div id="tab-generate" class="tab-panel">
     <div class="gen-layout">
@@ -252,7 +250,6 @@
         </div>
         <div class="card" style="margin-bottom:0">
           <div class="card-title" style="margin-bottom:16px">이미지 생성 설정</div>
-
           <div class="fg">
             <label class="fl">BP 원물 사진 <span style="color:var(--coral)">*</span></label>
             <div class="upload-box" id="bpBox" onclick="document.getElementById('bpInput').click()">
@@ -262,7 +259,6 @@
             </div>
             <input type="file" id="bpInput" accept="image/*" style="display:none" onchange="prevImg(this,'bpPreview','bpPh','bpBox')">
           </div>
-
           <div class="fg">
             <label class="fl">제품 정보 사진 <span style="color:var(--gray-400)">(선택)</span></label>
             <div class="upload-box" id="infoBox" onclick="document.getElementById('infoInput').click()">
@@ -272,7 +268,6 @@
             </div>
             <input type="file" id="infoInput" accept="image/*" style="display:none" onchange="prevImg(this,'infoPreview','infoPh','infoBox')">
           </div>
-
           <div class="fg">
             <label class="fl">컷 유형</label>
             <div class="sp-tags">
@@ -280,12 +275,10 @@
               <button class="sp-tag" data-sp="package" onclick="selectSP(this)">패키지컷</button>
             </div>
           </div>
-
           <div class="fg">
             <label class="fl">프롬프트 직접 입력 <span style="color:var(--gray-400)">(선택 — 가이드 탭 뱅크에서 복사)</span></label>
             <textarea id="customPrompt" rows="3" placeholder="예: 1번 이미지에 2번 아이스크림의 질감과 색을 적용해줘"></textarea>
           </div>
-
           <div class="fg">
             <label class="fl">생성 장수</label>
             <select id="imageCount">
@@ -294,11 +287,9 @@
               <option value="3" selected>3장</option>
             </select>
           </div>
-
           <button class="gen-btn" id="genBtn" onclick="generateImages()">이미지 생성하기</button>
         </div>
       </div>
-
       <div class="result-panel">
         <div id="resultEmpty" class="result-empty">
           <div class="r-icon">🖼</div>
@@ -314,7 +305,6 @@
     </div>
   </div>
 
-
   <!-- ══ SETTINGS ══ -->
   <div id="tab-settings" class="tab-panel">
     <div class="card" style="max-width:480px">
@@ -324,7 +314,7 @@
         <label class="fl">API 키</label>
         <div class="api-row">
           <input type="password" id="apiKeyInput" placeholder="sk-...">
-          <button onclick="saveApiKey()" style="flex-shrink:0;padding:10px 16px;background:var(--navy);color:white;border:none;border-radius:8px;cursor:pointer;font-size:13px;">저장</button>
+          <button onclick="saveApiKey()" style="flex-shrink:0;padding:10px 16px;background:#2D68C4;color:white;border:none;border-radius:8px;cursor:pointer;font-size:13px;">저장</button>
         </div>
         <div class="api-saved" id="apiSaved">저장되었습니다 ✓</div>
       </div>
@@ -338,7 +328,7 @@
   </div>
 
 </div>
-<!-- ══ FEEDBACK MODAL ══ -->
+
 <div id="feedbackModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center;padding:24px;">
   <div style="background:var(--white);border-radius:var(--radius-lg);padding:24px;width:100%;max-width:400px;">
     <div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:16px;">탈락 피드백 저장</div>
@@ -352,8 +342,6 @@
   </div>
 </div>
 
-
-
 <script>
 function switchTab(name, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -361,7 +349,6 @@ function switchTab(name, btn) {
   document.getElementById('tab-' + name).classList.add('active');
   btn.classList.add('active');
 }
-
 function prevImg(input, previewId, phId, boxId) {
   const file = input.files[0]; if (!file) return;
   const reader = new FileReader();
@@ -373,7 +360,6 @@ function prevImg(input, previewId, phId, boxId) {
   };
   reader.readAsDataURL(file);
 }
-
 function removeImg(e, inputId, previewId, phId, boxId) {
   e.stopPropagation();
   document.getElementById(inputId).value = '';
@@ -381,7 +367,6 @@ function removeImg(e, inputId, previewId, phId, boxId) {
   document.getElementById(phId).style.display = 'flex';
   document.getElementById(boxId).classList.remove('has-img');
 }
-
 function fileToBase64(file) {
   return new Promise((res, rej) => {
     const r = new FileReader();
@@ -390,14 +375,12 @@ function fileToBase64(file) {
     r.readAsDataURL(file);
   });
 }
-
 let selectedSP = 'texture';
 function selectSP(btn) {
   document.querySelectorAll('.sp-tag').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   selectedSP = btn.dataset.sp;
 }
-
 function buildPrompt() {
   const custom = document.getElementById('customPrompt').value.trim();
   if (custom) return custom;
@@ -407,43 +390,32 @@ function buildPrompt() {
   };
   return 'Based on these reference photos, generate a high-quality food photography image. Style: ' + spMap[selectedSP] + ' Keep the authentic texture and color of the actual product. Do not add text or logos.';
 }
-
 async function generateImages() {
   const apiKey = localStorage.getItem('ls_api_key');
   if (!apiKey) { alert('먼저 설정 탭에서 API 키를 입력해주세요.'); return; }
-
   const bpFile = document.getElementById('bpInput').files[0];
   if (!bpFile) { alert('BP 원물 사진을 업로드해주세요.'); return; }
-
   const count = parseInt(document.getElementById('imageCount').value);
   const btn = document.getElementById('genBtn');
   btn.disabled = true;
-
   document.getElementById('resultEmpty').style.display = 'none';
   document.getElementById('resultGrid').style.display = 'none';
   document.getElementById('resultError').style.display = 'none';
   document.getElementById('resultLoading').style.display = 'flex';
-
   const msgs = ['사진 분석 중...', '이미지 생성 중... (20~40초 소요)', '거의 다 됐어요...'];
   let mi = 0;
   const ticker = setInterval(() => {
     document.getElementById('loadingMsg').textContent = msgs[Math.min(mi++, msgs.length-1)];
   }, 10000);
-
   try {
     const bpData = await fileToBase64(bpFile);
     const infoFile = document.getElementById('infoInput').files[0];
     let infoData = null;
     if (infoFile) infoData = await fileToBase64(infoFile);
-
     const prompt = buildPrompt();
-
-    const contentParts = [
-      { type: 'input_image', image_url: bpData }
-    ];
+    const contentParts = [{ type: 'input_image', image_url: bpData }];
     if (infoData) contentParts.push({ type: 'input_image', image_url: infoData });
     contentParts.push({ type: 'input_text', text: prompt });
-
     const results = [];
     for (let i = 0; i < count; i++) {
       const res = await fetch('https://api.openai.com/v1/responses', {
@@ -455,12 +427,10 @@ async function generateImages() {
           tools: [{ type: 'image_generation', quality: 'high', size: '1024x1024' }]
         })
       });
-
       if (!res.ok) {
         const err = await res.json();
         throw new Error(err.error?.message || '생성 실패 (status ' + res.status + ')');
       }
-
       const data = await res.json();
       const imgOutput = data.output?.find(o => o.type === 'image_generation_call');
       if (imgOutput?.result) {
@@ -469,7 +439,6 @@ async function generateImages() {
         throw new Error('이미지 결과를 받지 못했습니다.');
       }
     }
-
     clearInterval(ticker);
     renderResults(results);
   } catch(e) {
@@ -482,7 +451,6 @@ async function generateImages() {
     btn.disabled = false;
   }
 }
-
 function renderResults(dataUrls) {
   document.getElementById('resultLoading').style.display = 'none';
   const grid = document.getElementById('resultGrid');
@@ -502,15 +470,12 @@ function renderResults(dataUrls) {
     grid.appendChild(card);
   });
 }
-
 function markStatus(dot, s) {
   dot.parentElement.querySelectorAll('.sdot').forEach(d => d.className = 'sdot');
   dot.classList.add(s);
 }
-
 let _feedbackImgUrl = null;
 let _feedbackDot = null;
-
 function openFeedbackModal(dot, imgUrl) {
   _feedbackImgUrl = imgUrl;
   _feedbackDot = dot;
@@ -518,21 +483,15 @@ function openFeedbackModal(dot, imgUrl) {
   document.getElementById('modalMemo').value = '';
   document.getElementById('feedbackModal').style.display = 'flex';
 }
-
 function closeFeedbackModal() {
   document.getElementById('feedbackModal').style.display = 'none';
   _feedbackImgUrl = null;
   _feedbackDot = null;
 }
-
 function submitFeedback() {
   const memo = document.getElementById('modalMemo').value.trim();
   const logs = JSON.parse(localStorage.getItem('ls_feedback') || '[]');
-  logs.unshift({
-    imgUrl: _feedbackImgUrl,
-    memo: memo || '메모 없음',
-    date: new Date().toLocaleDateString('ko-KR')
-  });
+  logs.unshift({ imgUrl: _feedbackImgUrl, memo: memo || '메모 없음', date: new Date().toLocaleDateString('ko-KR') });
   localStorage.setItem('ls_feedback', JSON.stringify(logs.slice(0, 50)));
   if (_feedbackDot) {
     _feedbackDot.parentElement.querySelectorAll('.sdot').forEach(d => d.className = 'sdot');
@@ -540,18 +499,17 @@ function submitFeedback() {
   }
   closeFeedbackModal();
 }
-
 function toggleQC(item) { item.classList.toggle('checked'); updateQCScore(); }
 function resetQC() { document.querySelectorAll('.qc-item').forEach(i => i.classList.remove('checked')); updateQCScore(); }
 function updateQCScore() {
   const total = document.querySelectorAll('.qc-item').length;
   const checked = document.querySelectorAll('.qc-item.checked').length;
   const el = document.getElementById('qcScore');
+  if (!el) return;
   if (!checked) { el.textContent = ''; return; }
   if (checked === total) { el.textContent = '✓ 모두 통과 — 사용 풀 등록 가능'; el.style.color = '#12B886'; }
   else { el.textContent = checked + ' / ' + total + ' 항목 통과'; el.style.color = '#F59F00'; }
 }
-
 function copyPrompt(btn) {
   const text = btn.closest('tr').querySelector('td:nth-child(2)').textContent.trim();
   navigator.clipboard.writeText(text).then(() => {
@@ -559,14 +517,12 @@ function copyPrompt(btn) {
     setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 1500);
   });
 }
-
 function clearFeedback() {
   if (!confirm('피드백 기록을 모두 삭제할까요?')) return;
   localStorage.removeItem('ls_feedback');
   const el = document.getElementById('feedbackLog');
   el.innerHTML = '<p style="color:var(--gray-400);font-size:13px;">기록이 없습니다.</p>';
 }
-
 function showFeedback() {
   const logs = JSON.parse(localStorage.getItem('ls_feedback') || '[]');
   const el = document.getElementById('feedbackLog');
@@ -582,7 +538,6 @@ function showFeedback() {
       </div>
     </div>`).join('');
 }
-
 function saveApiKey() {
   const val = document.getElementById('apiKeyInput').value.trim();
   if (!val) return;
@@ -590,14 +545,12 @@ function saveApiKey() {
   document.getElementById('apiSaved').style.display = 'block';
   setTimeout(() => document.getElementById('apiSaved').style.display = 'none', 2000);
 }
-
 function clearAll() {
   if (!confirm('API 키와 피드백 기록을 모두 삭제할까요?')) return;
   ['ls_api_key','ls_feedback'].forEach(k => localStorage.removeItem(k));
   document.getElementById('apiKeyInput').value = '';
   alert('삭제되었습니다.');
 }
-
 window.addEventListener('load', () => {
   const key = localStorage.getItem('ls_api_key');
   if (key) document.getElementById('apiKeyInput').value = key;
