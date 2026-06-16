@@ -1,7 +1,5 @@
 {
-  "functions": {
-    "copy-gen/api/*.js": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  "rewrites": [
+    { "source": "/copy-gen", "destination": "/copy-gen/index.html" }
+  ]
 }
