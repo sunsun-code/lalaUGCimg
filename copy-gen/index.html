@@ -223,14 +223,16 @@
     <div class="tab-content" id="tab-discontinue">
       <div class="card">
         <div class="field">
-          <div class="field-label">중단 명분 <span style="font-size:10px; color:var(--text-hint); font-weight:400;">복수 선택 가능</span></div>
-          <div class="pill-wrap">
-            <div class="pill" data-group="reason-discontinue" data-value="원재료 가격 인상">원재료 가격 인상</div>
-            <div class="pill" data-group="reason-discontinue" data-value="전쟁 및 국제 분쟁으로 인한 원재료 수급 불안정">전쟁 / 분쟁</div>
-            <div class="pill" data-group="reason-discontinue" data-value="원재료 수급 불안정">원재료 수급 불안정</div>
-            <div class="pill" data-group="reason-discontinue" data-value="현재 품질 수준 유지 불가">품질 유지 불가</div>
+          <div class="field-label">중단 명분 <span style="font-size:10px; color:var(--text-hint); font-weight:400;">비워두면 AI가 시나리오별로 자동 조합</span></div>
+            <div class="optional-box">
+              <div class="optional-label">원가인상 · 원물수급 · 물량부족 소재 중 선택하면 해당 방향으로 생성 (선택사항)</div>
+              <div class="pill-wrap">
+                <div class="pill" data-group="reason-discontinue" data-value="원재료 가격 인상">원가 인상</div>
+                <div class="pill" data-group="reason-discontinue" data-value="폭염 및 기상 이변으로 인한 원물 수급 불안정">원물 수급</div>
+                <div class="pill" data-group="reason-discontinue" data-value="주문량이 생산 가능 물량을 초과하는 상황">물량 부족</div>
+              </div>
+            </div>
           </div>
-        </div>
         <div class="two-col">
           <div class="field" style="margin-bottom:0">
             <div class="field-label">혜택 가격</div>
@@ -259,13 +261,16 @@
           </div>
         </div>
         <div class="field">
-          <div class="field-label">인상 명분 <span style="font-size:10px; color:var(--text-hint); font-weight:400;">복수 선택 가능</span></div>
-          <div class="pill-wrap">
-            <div class="pill" data-group="reason-priceup" data-value="원재료 가격 인상">원재료 가격 인상</div>
-            <div class="pill" data-group="reason-priceup" data-value="원재료 수급 불안정">원재료 수급 불안정</div>
-            <div class="pill" data-group="reason-priceup" data-value="역대급 폭염으로 인한 원재료 수급 어려움">역대급 폭염</div>
+          <div class="field-label">인상 명분 <span style="font-size:10px; color:var(--text-hint); font-weight:400;">비워두면 AI가 시나리오별로 자동 조합</span></div>
+            <div class="optional-box">
+              <div class="optional-label">원가인상 · 원물수급 · 물량부족 소재 중 선택하면 해당 방향으로 생성 (선택사항)</div>
+              <div class="pill-wrap">
+                <div class="pill" data-group="reason-priceup" data-value="원재료 가격 인상">원가 인상</div>
+                <div class="pill" data-group="reason-priceup" data-value="폭염 및 기상 이변으로 인한 원물 수급 불안정">원물 수급</div>
+                <div class="pill" data-group="reason-priceup" data-value="주문량이 생산 가능 물량을 초과하는 상황">물량 부족</div>
+              </div>
+            </div>
           </div>
-        </div>
         <div class="two-col">
           <div class="field" style="margin-bottom:0">
             <div class="field-label">혜택 가격</div>
