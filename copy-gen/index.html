@@ -466,8 +466,10 @@
       const panel = document.createElement('div');
       panel.className = 'res-panel' + (i === 0 ? ' active' : '');
 
-      const parts = [s.p1, s.p2, s.p3, s.p4];
-      const fullText = [s.headline, s.greeting, s.p1, s.p2, s.p3, s.p4, s.closing].filter(Boolean).join('\n\n');
+      const parts = [s.p2, s.p3, s.p4];
+      const partColorsUsed = [partColors[1], partColors[2], partColors[3]];
+      const partNamesUsed = ['맛 + 대세감', partNames[2], partNames[3]];
+      const fullText = [s.headline, s.greeting, s.p2, s.p3, s.p4, s.closing].filter(Boolean).join('\n\n');
 
       panel.innerHTML = `
         <div class="scenario-card">
@@ -477,10 +479,10 @@
           </div>
           <div class="scenario-body">
             <div class="part-text" style="color:var(--text-hint); font-size:12px;">${s.greeting || ''}</div>
-            ${parts.map((p, pi) => `
-              <div class="part-label" style="color:${partColors[pi]}">${partNames[pi]}</div>
-              <div class="part-text">${p || ''}</div>
-            `).join('')}
+            ${parts.map((p, pi) => p ? `
+              <div class="part-label" style="color:${partColorsUsed[pi]}">${partNamesUsed[pi]}</div>
+              <div class="part-text">${p}</div>
+            ` : '').join('')}
             <div class="part-text" style="color:var(--text-hint); font-size:12px;">${s.closing || ''}</div>
             <button class="copy-scenario-btn copy-scenario-trigger">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
