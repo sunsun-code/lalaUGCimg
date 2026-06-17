@@ -20,136 +20,182 @@
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-pill: 99px;
+      --c-hooking: #2D68C4;
+      --c-sp: #1D9E75;
+      --c-trend: #7C3AED;
+      --c-cause: #854F0B;
+      --c-result: #A32D2D;
+      --c-benefit: #1a1917;
     }
-    body { font-family: 'Apple SD Gothic Neo', 'Pretendard', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 24px 64px; }
-    .nav-bar { background: #F9FAFF; border-bottom: 1px solid #E2E8F4; height: 48px; display: flex; align-items: center; padding: 0 24px; gap: 16px; position: sticky; top: 0; z-index: 100; margin: 0 -24px 28px; }
-    .nav-logo { font-size: 13px; font-weight: 700; color: #2D68C4; letter-spacing: -0.3px; }
-    .nav-link { font-size: 12px; color: #6b6860; text-decoration: none; padding: 4px 10px; border-radius: 6px; transition: all 0.12s; white-space: nowrap; }
-    .nav-link:hover { background: #E8EFFC; color: #2D68C4; }
-    .nav-link.active { background: #2D68C4; color: #F9FAFF; font-weight: 500; }
+    body { font-family: 'Apple SD Gothic Neo', 'Pretendard', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 20px 64px; }
 
-    .layout { display: grid; grid-template-columns: 280px 1fr; gap: 24px; max-width: 960px; margin: 0 auto; align-items: start; }
+    .nav-bar { background: var(--bg); border-bottom: 1px solid var(--border); height: 48px; display: flex; align-items: center; padding: 0 20px; gap: 16px; position: sticky; top: 0; z-index: 100; margin: 0 -20px 0; }
+    .nav-logo { font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: -0.3px; }
+    .nav-link { font-size: 12px; color: var(--text-sub); text-decoration: none; padding: 4px 10px; border-radius: 6px; transition: all 0.12s; white-space: nowrap; }
+    .nav-link:hover { background: var(--accent-bg); color: var(--accent); }
+    .nav-link.active { background: var(--accent); color: var(--bg); font-weight: 500; }
 
-    /* 왼쪽 이미지 패널 */
-    .image-panel { position: sticky; top: 32px; }
-    .image-panel-title { font-size: 10px; font-weight: 600; color: var(--text-hint); letter-spacing: 0.06em; margin-bottom: 10px; }
-    .image-slot { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 10px; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; }
-    .image-slot img { width: 100%; height: 100%; object-fit: cover; display: none; }
-    .image-slot img.loaded { display: block; }
-    .image-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 24px; text-align: center; }
-    .image-placeholder-icon { font-size: 28px; opacity: 0.25; }
-    .image-placeholder-text { font-size: 11px; color: var(--text-hint); line-height: 1.5; }
-    .image-upload-btn { width: 100%; padding: 8px; border: 1px dashed var(--border-strong); border-radius: var(--radius-sm); background: transparent; font-size: 12px; font-family: inherit; color: var(--text-sub); cursor: pointer; transition: all 0.12s; text-align: center; }
-    .image-upload-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
-    .image-note { font-size: 10px; color: var(--text-hint); margin-top: 8px; line-height: 1.5; }
-    input[type="file"] { display: none; }
+    .page-header { max-width: 980px; margin: 0 auto; padding: 22px 0 0; }
+    .brand-label { font-size: 11px; color: var(--text-hint); letter-spacing: 0.08em; margin-bottom: 4px; }
+    .page-title { font-size: 22px; font-weight: 600; margin-bottom: 16px; }
 
-    /* 오른쪽 폼 */
-    .form-panel { min-width: 0; }
-    .header { margin-bottom: 24px; }
-    .header-logo { font-size: 11px; color: var(--text-hint); letter-spacing: 0.08em; margin-bottom: 5px; }
-    .header h1 { font-size: 22px; font-weight: 600; }
-    .tab-bar { display: flex; border-bottom: 1.5px solid var(--border); margin-bottom: 16px; }
-    .tab { padding: 10px 20px; font-size: 13px; color: var(--text-sub); border-bottom: 2px solid transparent; margin-bottom: -1.5px; cursor: pointer; transition: color 0.12s; user-select: none; -webkit-user-select: none; }
-    .tab:hover { color: var(--text); }
-    .tab.active { color: var(--accent); border-bottom: 2px solid var(--accent); font-weight: 600; }
-    .tab-badge { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: var(--radius-pill); background: var(--accent-bg); color: var(--accent-text); margin-left: 4px; vertical-align: middle; }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px; margin-bottom: 10px; }
-    .field { margin-bottom: 14px; }
+    .page-tab-bar { display: flex; border-bottom: 1.5px solid var(--border); max-width: 980px; margin: 0 auto 20px; }
+    .page-tab { padding: 9px 18px; font-size: 13px; color: var(--text-sub); border-bottom: 2px solid transparent; margin-bottom: -1.5px; cursor: pointer; transition: color 0.12s; user-select: none; }
+    .page-tab:hover { color: var(--text); }
+    .page-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+    .layout { display: grid; grid-template-columns: 1fr 360px; gap: 18px; max-width: 980px; margin: 0 auto; align-items: start; }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 15px 16px; margin-bottom: 10px; }
+    .field { margin-bottom: 13px; }
     .field:last-child { margin-bottom: 0; }
-    .field-label { font-size: 11px; font-weight: 600; color: var(--text-sub); margin-bottom: 7px; }
+    .field-label { font-size: 11px; font-weight: 600; color: var(--text-sub); margin-bottom: 7px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .label-sub { font-size: 10px; color: var(--text-hint); font-weight: 400; }
     .field-hint { font-size: 10px; color: var(--text-hint); margin-top: 4px; }
-    .category-block { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 8px; background: #f4f7fd; }
-    .category-block:last-child { margin-bottom: 0; }
-    .category-name { font-size: 10px; font-weight: 600; color: var(--text-hint); letter-spacing: 0.04em; margin-bottom: 8px; }
+
+    .cat-block { margin-bottom: 10px; }
+    .cat-block:last-child { margin-bottom: 0; }
+    .cat-name { font-size: 10px; font-weight: 600; color: var(--text-hint); letter-spacing: 0.04em; margin-bottom: 7px; }
     .pill-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
-    .pill { padding: 5px 13px; border: 1px solid var(--border-strong); border-radius: var(--radius-pill); background: var(--surface); font-size: 12px; color: var(--text); cursor: pointer; transition: all 0.12s; user-select: none; -webkit-user-select: none; }
+    .pill { padding: 5px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-pill); background: var(--surface); font-size: 12px; color: var(--text); cursor: pointer; transition: all 0.12s; user-select: none; -webkit-user-select: none; white-space: nowrap; }
     .pill:hover { border-color: var(--accent); }
     .pill.active { border: 1.5px solid var(--accent); background: var(--accent-bg); color: var(--accent-text); font-weight: 600; }
-    textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-family: inherit; font-size: 13px; color: var(--text); background: #f4f7fd; resize: vertical; min-height: 64px; line-height: 1.6; outline: none; transition: border-color 0.12s; }
+
+    .type-pill { padding: 6px 13px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--surface); font-size: 12px; color: var(--text); cursor: pointer; transition: all 0.12s; user-select: none; -webkit-user-select: none; }
+    .type-pill:hover { border-color: var(--accent); }
+    .type-pill.active { border: 1.5px solid var(--accent); background: var(--accent-bg); color: var(--accent-text); font-weight: 600; }
+
+    textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-family: inherit; font-size: 13px; color: var(--text); background: #f4f7fd; resize: vertical; min-height: 60px; line-height: 1.6; outline: none; transition: border-color 0.12s; }
     textarea:focus { border-color: var(--accent); }
-    input[type="text"] { width: 100%; height: 36px; padding: 0 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-family: inherit; font-size: 13px; color: var(--text); background: #f4f7fd; outline: none; transition: border-color 0.12s; }
+    input[type="text"] { width: 100%; height: 36px; padding: 0 11px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-family: inherit; font-size: 13px; color: var(--text); background: #f4f7fd; outline: none; transition: border-color 0.12s; }
     input[type="text"]:focus { border-color: var(--accent); }
+    select { width: 100%; height: 36px; padding: 0 11px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-family: inherit; font-size: 13px; color: var(--text); background: #f4f7fd; outline: none; cursor: pointer; }
+
+    .situation-block { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 13px; background: #f7f9ff; margin-bottom: 8px; }
+    .situation-block:last-child { margin-bottom: 0; }
+    .situation-block-title { font-size: 10px; font-weight: 700; color: var(--text-hint); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
+    .cause-row { margin-bottom: 10px; }
+    .cause-row:last-child { margin-bottom: 0; }
+    .cause-row-label { font-size: 11px; font-weight: 600; color: var(--text-sub); margin-bottom: 6px; }
+    .ai-row { display: flex; align-items: flex-start; gap: 7px; margin-top: 6px; }
+    .ai-tag { font-size: 9px; font-weight: 600; color: var(--text-hint); white-space: nowrap; padding: 4px 0 0; letter-spacing: 0.04em; }
+    .ai-pill { padding: 4px 10px; border: 1px dashed var(--border-strong); border-radius: var(--radius-pill); background: var(--bg); font-size: 11px; color: var(--text-sub); cursor: pointer; transition: all 0.12s; user-select: none; -webkit-user-select: none; white-space: nowrap; }
+    .ai-pill:hover { border-color: var(--accent); color: var(--accent); }
+    .ai-pill.active { border: 1.5px dashed var(--accent); background: var(--accent-bg); color: var(--accent-text); }
+
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .price-row { display: flex; gap: 6px; align-items: center; }
-    .price-preset { padding: 7px 14px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--surface); font-size: 13px; font-family: inherit; color: var(--text); cursor: pointer; transition: all 0.12s; white-space: nowrap; }
-    .price-preset:hover { border-color: var(--accent); }
-    .price-preset.active { border: 1.5px solid var(--accent); background: var(--accent-bg); color: var(--accent-text); font-weight: 600; }
-    .or-divider { font-size: 11px; color: var(--text-hint); flex-shrink: 0; }
-    .optional-box { border: 1px dashed var(--border-strong); border-radius: var(--radius-sm); padding: 12px; background: #f4f7fd; }
-    .optional-label { font-size: 10px; color: var(--text-hint); margin-bottom: 8px; }
-    .generate-btn { width: 100%; height: 48px; background: var(--accent); color: white; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; transition: opacity 0.15s; }
-    .generate-btn:hover { opacity: 0.88; }
-    .generate-btn:disabled { opacity: 0.45; cursor: not-allowed; }
-    .output-wrap { display: none; margin-top: 12px; }
-    .output-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .output-label { font-size: 12px; font-weight: 600; color: var(--text-sub); }
-    .copy-btn { display: flex; align-items: center; gap: 5px; padding: 5px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--surface); font-size: 12px; font-family: inherit; color: var(--text-sub); cursor: pointer; transition: background 0.12s; }
-    .copy-btn:hover { background: var(--bg); }
-    .output-text { font-size: 14px; line-height: 1.9; color: var(--text); white-space: pre-wrap; word-break: keep-all; }
-    .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.35); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
+    .price-btn { padding: 7px 14px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--surface); font-size: 13px; font-family: inherit; color: var(--text); cursor: pointer; transition: all 0.12s; white-space: nowrap; }
+    .price-btn:hover { border-color: var(--accent); }
+    .price-btn.active { border: 1.5px solid var(--accent); background: var(--accent-bg); color: var(--accent-text); font-weight: 600; }
+    .or-text { font-size: 11px; color: var(--text-hint); flex-shrink: 0; }
+
+    .gen-btn { width: 100%; height: 48px; background: var(--accent); color: white; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; transition: opacity 0.15s; }
+    .gen-btn:hover { opacity: 0.88; }
+    .gen-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.35); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .error-msg { font-size: 12px; color: #c0392b; margin-top: 8px; display: none; }
 
-    @media (max-width: 700px) {
+    /* Output panel */
+    .output-panel { position: sticky; top: 60px; max-height: calc(100vh - 72px); overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .output-panel::-webkit-scrollbar { width: 4px; }
+    .output-panel::-webkit-scrollbar-track { background: transparent; }
+    .output-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .copy-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+    .panel-header { background: #1a1917; padding: 10px 14px; }
+    .panel-header-title { font-size: 12px; font-weight: 600; color: white; }
+    .copy-part { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+    .copy-part:last-child { border-bottom: none; }
+    .part-meta { display: flex; align-items: baseline; gap: 8px; margin-bottom: 5px; flex-wrap: wrap; }
+    .part-name { font-size: 11px; font-weight: 700; min-width: 58px; }
+    .part-desc { font-size: 10px; color: var(--text-hint); line-height: 1.4; }
+    .part-content { font-size: 12px; line-height: 1.75; white-space: pre-wrap; }
+    .part-content.empty { color: var(--text-hint); font-style: italic; }
+    .part-content.filled { color: var(--text); }
+
+    .part-name.hooking { color: var(--c-hooking); }
+    .part-name.sp { color: var(--c-sp); }
+    .part-name.trend { color: var(--c-trend); }
+    .part-name.cause { color: var(--c-cause); }
+    .part-name.result { color: var(--c-result); }
+    .part-name.benefit { color: var(--c-benefit); }
+
+    .preview-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: none; }
+    .preview-header { background: #f4f7fd; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+    .preview-header-title { font-size: 12px; font-weight: 600; color: var(--text-sub); }
+    .scenario-block { padding: 13px 14px; border-bottom: 1px solid var(--border); }
+    .scenario-block:last-child { border-bottom: none; }
+    .scenario-num { font-size: 10px; font-weight: 600; color: var(--text-hint); margin-bottom: 6px; }
+    .scenario-text { font-size: 12px; line-height: 1.85; color: var(--text); white-space: pre-wrap; word-break: keep-all; }
+    .preview-actions { padding: 11px 14px; display: flex; gap: 7px; }
+    .act-btn { flex: 1; padding: 8px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--surface); font-size: 12px; font-family: inherit; color: var(--text-sub); cursor: pointer; transition: all 0.12s; text-align: center; white-space: nowrap; }
+    .act-btn:hover { background: var(--bg); }
+    .act-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+    .act-btn.primary:hover { opacity: 0.88; }
+    .act-btn.copied { background: #eaf3de; color: #3B6D11; border-color: #3B6D11; }
+
+    @media (max-width: 720px) {
       .layout { grid-template-columns: 1fr; }
-      .image-panel { position: static; }
+      .output-panel { position: static; max-height: none; }
     }
   </style>
 </head>
 <body>
+
 <nav class="nav-bar">
   <span class="nav-logo">라라스윗 TOOLS</span>
   <a href="/" class="nav-link">BP 이미지 자동화</a>
   <a href="/copy-gen" class="nav-link active">공지문 카피 생성기</a>
 </nav>
 
+<div class="page-header">
+  <div class="brand-label">LALASWEET</div>
+  <h1 class="page-title">공지문 카피 생성기</h1>
+</div>
+
+<div class="page-tab-bar">
+  <div class="page-tab active">원재료 수급</div>
+  <div class="page-tab" style="color:var(--text-hint); cursor:default;">대세감 <span style="font-size:10px;">(준비중)</span></div>
+</div>
+
 <div class="layout">
 
-  <!-- 왼쪽: 이미지 패널 -->
-  <div class="image-panel">
-    <div class="image-panel-title">참고 예시 배너</div>
-    <div class="image-slot" id="image-slot">
-      <div class="image-placeholder">
-        <div class="image-placeholder-icon">🖼</div>
-        <div class="image-placeholder-text">배너 예시 이미지를<br>업로드해주세요</div>
-      </div>
-      <img id="preview-img" src="" alt="예시 배너" />
-    </div>
-    <label class="image-upload-btn" for="image-upload">+ 이미지 업로드</label>
-    <input type="file" id="image-upload" accept="image/*" onchange="previewImage(event)" />
-    <div class="image-note">탭별로 참고할 배너 이미지를<br>직접 업로드해서 확인할 수 있어요.</div>
-  </div>
+  <!-- 왼쪽: 입력 -->
+  <div class="input-panel">
 
-  <!-- 오른쪽: 폼 -->
-  <div class="form-panel">
-    <div class="header">
-      <div class="header-logo" style="color: #2D68C4;">LALASWEET</div>
-      <h1 style="color: #1a1917;">공지문 카피 생성기</h1>
-    </div>
-
-    <div class="tab-bar">
-      <div class="tab active" onclick="switchTab('mistake', this)">직원 실수<span class="tab-badge">🔥 1위</span></div>
-      <div class="tab" onclick="switchTab('discontinue', this)">판매 중단</div>
-      <div class="tab" onclick="switchTab('price_up', this)">가격 인상</div>
-    </div>
-
-    <!-- 공통: 제품 선택 -->
+    <!-- 제품 선택 -->
     <div class="card">
       <div class="field" style="margin-bottom:0">
-        <div class="field-label">제품 선택 — 스틱바</div>
-        <div class="category-block">
-          <div class="category-name">듬뿍바</div>
+        <div class="field-label">제품 선택</div>
+
+        <div class="cat-block">
+          <div class="cat-name">파인트</div>
+          <div class="pill-wrap">
+            <div class="pill" data-group="product" data-value="생요거트 망고 파인트" data-sp="">생요거트 망고</div>
+            <div class="pill" data-group="product" data-value="생요거트 복숭아 파인트" data-sp="">생요거트 복숭아</div>
+            <div class="pill" data-group="product" data-value="생요거트 클래린 파인트" data-sp="">생요거트 클래린</div>
+            <div class="pill" data-group="product" data-value="바닐라빈 파인트" data-sp="">바닐라빈</div>
+            <div class="pill" data-group="product" data-value="초콜릿 파인트" data-sp="">초콜릿</div>
+            <div class="pill" data-group="product" data-value="치즈케이크 파인트" data-sp="">치즈케이크</div>
+            <div class="pill" data-group="product" data-value="생우유 파인트" data-sp="">생우유</div>
+            <div class="pill" data-group="product" data-value="에플민트 파인트" data-sp="">에플민트</div>
+            <div class="pill" data-group="product" data-value="오렌지앤베리 파인트" data-sp="">오렌지앤베리</div>
+          </div>
+        </div>
+
+        <div class="cat-block">
+          <div class="cat-name">듬뿍바</div>
           <div class="pill-wrap">
             <div class="pill" data-group="product" data-value="딸기 듬뿍바" data-sp="제주도민 뭐랭하맨님이 사라웃한 그 딸기주물럭 아이스크림! 딸기 씨가 톡톡 씹혀 상큼달달 그 자체">딸기</div>
             <div class="pill" data-group="product" data-value="골드키위 듬뿍바" data-sp="후숙 제대로 된 골드키위를 통째로! 한입 한입마다 씹히는 키위 씨 & 파인애플 조합">골드키위파인</div>
             <div class="pill" data-group="product" data-value="피치망고 듬뿍바" data-sp="유명카페 피치망고 스무디 그대로! 후숙 망고가 중간중간에 씹혀서 2배 더 맛있음!">피치망고</div>
           </div>
         </div>
-        <div class="category-block">
-          <div class="category-name">쫀득바</div>
+
+        <div class="cat-block" style="margin-bottom:0">
+          <div class="cat-name">쫀득바</div>
           <div class="pill-wrap">
             <div class="pill" data-group="product" data-value="멜론 쫀득바" data-sp="SNS에서 난리난 노을멜론처럼, 주황빛 멜론 과육 가득이라 쫀득해서 더 맛있다">멜론</div>
             <div class="pill" data-group="product" data-value="망고 쫀득바" data-sp="오독한 망고 쉘 속, 진짜 후숙 망고의 쫀득함 그대로 씹혀서 더 맛있다">망고</div>
@@ -158,288 +204,268 @@
       </div>
     </div>
 
-    <!-- 공통: SP -->
+    <!-- SP -->
     <div class="card">
       <div class="field" style="margin-bottom:0">
         <div class="field-label">맛 (SP)</div>
-        <textarea id="sp" placeholder="제품 선택 시 자동 입력됩니다. 직접 수정하면 수정본으로 반영됩니다."></textarea>
-        <div class="field-hint">제품 선택 시 자동 입력 — 수정하면 수정본으로 반영</div>
+        <textarea id="sp" rows="3" placeholder="제품 선택 시 자동 입력됩니다. 수정하면 수정본으로 반영됩니다."></textarea>
+        <div class="field-hint">제품 선택 시 자동 입력 — 생성 시 AI가 원문 그대로 사용</div>
       </div>
     </div>
 
-    <!-- 직원실수형 -->
-    <div class="tab-content active" id="tab-mistake">
-      <div class="card">
-        <div class="field">
-          <div class="field-label">대세감 <span style="font-size:10px; color:var(--text-hint); font-weight:400;">복수 선택 — 비워두면 AI가 자동 작성</span></div>
-          <div class="category-block">
-            <div class="category-name">품절 / 수요</div>
-            <div class="pill-wrap">
-              <div class="pill" data-group="hype" data-value="출시 즉시 품절">출시 즉시 품절</div>
-              <div class="pill" data-group="hype" data-value="재입고 후 2차 품절">재입고 2차 품절</div>
-              <div class="pill" data-group="hype" data-value="연일 품절대란">연일 품절대란</div>
-              <div class="pill" data-group="hype" data-value="대형 편의점에 단독 입점할 정도로 인정받은 제품">편의점 단독입점</div>
-
-            </div>
-          </div>
-          <div class="category-block" style="margin-bottom:0">
-            <div class="category-name">바이럴</div>
-            <div class="pill-wrap">
-              <div class="pill" data-group="hype" data-value="인플루언서들까지 샤라웃해 SNS 조회수가 터진 이후 수요가 급증">인플루언서 샤라웃</div>
-            </div>
-          </div>
-        </div>
-        <div class="two-col">
-          <div class="field" style="margin-bottom:0">
-            <div class="field-label">혜택 가격</div>
-            <div class="price-row">
-              <button class="price-preset active" data-tab="mistake" data-value="0원">0원</button>
-              <button class="price-preset" data-tab="mistake" data-value="100원">100원</button>
-              <span class="or-divider">또는</span>
-              <input type="text" id="custom-price-mistake" placeholder="직접 입력" oninput="clearPreset('mistake')" />
-            </div>
-          </div>
-          <div class="field" style="margin-bottom:0">
-            <div class="field-label">혜택 기간</div>
-            <input type="text" id="period-mistake" value="오늘까지" />
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="optional-box">
-          <div class="optional-label">실수 내용 — 선택사항, 비워두면 AI가 채움</div>
-          <div class="pill-wrap" style="margin-bottom:8px">
-            <div class="pill" data-group="situation-preset" data-value="가격 설정 과정에서 착오">가격 설정 착오</div>
-            <div class="pill" data-group="situation-preset" data-value="내부 행사용 가격이 외부로 유출">내부 행사용 가격 유출</div>
-          </div>
-          <input type="text" id="situation-mistake" placeholder="직접 입력 (선택 시 자동 입력)" />
-        </div>
-      </div>
+    <!-- 유형 -->
+    <div class="card">
+      <div class="field" style="margin-bottom:0">
+        <div class="field-label">유형 <span class="label-sub">공지문 성격</span></div>
+        <div class="pill-wrap">
+          <div class="type-pill" data-group="type" data-value="판매종단">판매종단</div>
+          <div class="type-pill active" data-group="type" data-value="원가인상">원가 인상으로 제품가 인상</div>
+          <div class="type-pill" data-group="type" data-value="원물수급">원물 수급 어려움</div>
+          <div class="type-pill" data-group="type" data-value="신규">신규</div>
         </div>
       </div>
     </div>
 
-    <!-- 판매중단형 -->
-    <div class="tab-content" id="tab-discontinue">
-      <div class="card">
-        <div class="field">
-          <div class="field-label">중단 명분 <span style="font-size:10px; color:var(--text-hint); font-weight:400;">비워두면 AI가 시나리오별로 자동 조합</span></div>
-            <div class="optional-box">
-              <div class="optional-label">원가인상 · 원물수급 · 물량부족 소재 중 선택하면 해당 방향으로 생성 (선택사항)</div>
-              <div class="pill-wrap">
-                <div class="pill" data-group="reason-discontinue" data-value="원재료 가격 인상">원가 인상</div>
-                <div class="pill" data-group="reason-discontinue" data-value="폭염 및 기상 이변으로 인한 원물 수급 불안정">원물 수급</div>
-                <div class="pill" data-group="reason-discontinue" data-value="주문량이 생산 가능 물량을 초과하는 상황">물량 부족</div>
-              </div>
-            </div>
-          </div>
-        <div class="two-col">
-          <div class="field" style="margin-bottom:0">
-            <div class="field-label">혜택 가격</div>
-            <div class="price-row">
-              <button class="price-preset active" data-tab="discontinue" data-value="0원">0원</button>
-              <button class="price-preset" data-tab="discontinue" data-value="100원">100원</button>
-              <span class="or-divider">또는</span>
-              <input type="text" id="custom-price-discontinue" placeholder="직접 입력" oninput="clearPreset('discontinue')" />
-            </div>
-          </div>
-          <div class="field" style="margin-bottom:0">
-            <div class="field-label">혜택 기간</div>
-            <input type="text" id="period-discontinue" value="오늘까지" />
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- 상황 -->
+    <div class="card">
+      <div class="field-label" style="margin-bottom:10px">상황 <span class="label-sub">비워두면 AI가 채움</span></div>
 
-    <!-- 가격인상형 -->
-    <div class="tab-content" id="tab-price_up">
-      <div class="card">
-        <div class="field">
-          <div class="field-label">대세감 — 바이럴 <span style="font-size:10px; color:var(--text-hint); font-weight:400;">복수 선택 — 비워두면 AI가 자동 작성</span></div>
+      <div class="situation-block">
+        <div class="situation-block-title">원인</div>
+
+        <div class="cause-row">
+          <div class="cause-row-label">무엇이 (원인 유인)</div>
           <div class="pill-wrap">
-            <div class="pill" data-group="hype-priceup" data-value="인플루언서들까지 샤라웃해 SNS 조회수가 터진 이후 수요가 급증">인플루언서 샤라웃</div>
+            <div class="pill" data-group="cause-what" data-value="전쟁 여파로">전쟁 여파로</div>
+            <div class="pill" data-group="cause-what" data-value="국제 유가가 통제 불능 상태라">국제 유가가 통제 불능 상태라</div>
+            <div class="pill" data-group="cause-what" data-value="역대급 폭염으로">역대급 폭염으로</div>
+            <div class="pill" data-group="cause-what" data-value="원래 비싼 원재료인데">원래 비싼 원재료인데</div>
+          </div>
+          <div class="ai-row">
+            <span class="ai-tag">AI 추천</span>
+            <div class="pill-wrap">
+              <div class="ai-pill" data-group="cause-what-ai" data-value="국제 정세 변동으로 인해">국제 정세</div>
+              <div class="ai-pill" data-group="cause-what-ai" data-value="시즌 수요 급증으로 인해">시즌성</div>
+              <div class="ai-pill" data-group="cause-what-ai" data-value="유통 구조 변화로 인해">유통상황</div>
+              <div class="ai-pill" data-group="cause-what-ai" data-value="내부 제조 비용 상승으로 인해">사내 갈등</div>
+            </div>
           </div>
         </div>
-        <div class="field">
-          <div class="field-label">인상 명분 <span style="font-size:10px; color:var(--text-hint); font-weight:400;">비워두면 AI가 시나리오별로 자동 조합</span></div>
-            <div class="optional-box">
-              <div class="optional-label">원가인상 · 원물수급 · 물량부족 소재 중 선택하면 해당 방향으로 생성 (선택사항)</div>
-              <div class="pill-wrap">
-                <div class="pill" data-group="reason-priceup" data-value="원재료 가격 인상">원가 인상</div>
-                <div class="pill" data-group="reason-priceup" data-value="폭염 및 기상 이변으로 인한 원물 수급 불안정">원물 수급</div>
-                <div class="pill" data-group="reason-priceup" data-value="주문량이 생산 가능 물량을 초과하는 상황">물량 부족</div>
-              </div>
+
+        <div class="cause-row">
+          <div class="cause-row-label">어떻게 (원인 메커니즘)</div>
+          <div class="pill-wrap">
+            <div class="pill" data-group="cause-how" data-value="원재료 값이 폭등해">원재료 값이 폭등해</div>
+            <div class="pill" data-group="cause-how" data-value="원물 가격까지 올라">원물 가격까지 올라</div>
+            <div class="pill" data-group="cause-how" data-value="낙과 피해가 심해">낙과 피해가 심해</div>
+            <div class="pill" data-group="cause-how" data-value="원물 수급 자체가 막혀">원물 수급 자체가 막혀</div>
+          </div>
+          <div class="ai-row">
+            <span class="ai-tag">AI 추천</span>
+            <div class="pill-wrap">
+              <div class="ai-pill" data-group="cause-how-ai" data-value="원재료 관련 비용이 급등해">원재료 관련</div>
+              <div class="ai-pill" data-group="cause-how-ai" data-value="유통 비용이 상승해">유통 관련</div>
+              <div class="ai-pill" data-group="cause-how-ai" data-value="제조 원가가 올라">제작자 관련</div>
+              <div class="ai-pill" data-group="cause-how-ai" data-value="소비자 수요가 공급을 초과해">소비자 관련</div>
             </div>
           </div>
-        <div class="two-col">
-          <div class="field" style="margin-bottom:0">
-            <div class="field-label">혜택 가격</div>
-            <div class="price-row">
-              <button class="price-preset active" data-tab="price_up" data-value="0원">0원</button>
-              <button class="price-preset" data-tab="price_up" data-value="100원">100원</button>
-              <span class="or-divider">또는</span>
-              <input type="text" id="custom-price-price_up" placeholder="직접 입력" oninput="clearPreset('price_up')" />
-            </div>
+        </div>
+      </div>
+
+      <div class="situation-block">
+        <div class="situation-block-title">결과</div>
+        <div class="pill-wrap">
+          <div class="pill" data-group="result" data-value="더 이상 수급이 어려워 가격 인상">더 이상 수급이 어려워 가격 인상</div>
+          <div class="pill" data-group="result" data-value="제품 품질 유지가 어려워 잠정 중단">제품 품질 유지가 어려워 잠정 중단</div>
+          <div class="pill" data-group="result" data-value="원재료 가격이 상승해 가격인상">원재료 가격이 상승해 가격인상</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 혜택 -->
+    <div class="card">
+      <div class="two-col">
+        <div class="field" style="margin-bottom:0">
+          <div class="field-label">혜택 가격</div>
+          <div class="price-row">
+            <button class="price-btn active" data-value="0원">0원</button>
+            <button class="price-btn" data-value="100원">100원</button>
+            <span class="or-text">또는</span>
+            <input type="text" id="custom-price" placeholder="직접 입력" />
           </div>
-          <div class="field" style="margin-bottom:0">
-            <div class="field-label">혜택 기간</div>
-            <input type="text" id="period-price_up" value="오늘까지" />
-          </div>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <div class="field-label">혜택 기간</div>
+          <select id="period">
+            <option>오늘까지</option>
+            <option>오늘, 내일까지</option>
+            <option>이번 주 금요일까지</option>
+            <option>주말까지</option>
+          </select>
         </div>
       </div>
     </div>
 
     <!-- 생성 -->
     <div class="card" style="margin-bottom:0">
-      <button class="generate-btn" id="gen-btn" onclick="generate()">카피 생성하기</button>
+      <button class="gen-btn" id="gen-btn" onclick="generate()">카피 생성하기</button>
       <div class="error-msg" id="error-msg"></div>
     </div>
 
-    <!-- 결과 영역 -->
-    <div id="results-wrap" style="display:none; margin-top:10px;">
-      <div id="res-tabs" style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;"></div>
-      <div id="res-panels"></div>
+  </div>
+
+  <!-- 오른쪽: 결과 -->
+  <div class="output-panel">
+
+    <!-- 완성 카피 구조 -->
+    <div class="copy-panel">
+      <div class="panel-header">
+        <div class="panel-header-title">완성 카피</div>
+      </div>
+      <div class="copy-part">
+        <div class="part-meta">
+          <span class="part-name hooking">후킹</span>
+          <span class="part-desc">관심 가질만한 내용을 서두로 후킹 강화</span>
+        </div>
+        <div class="part-content empty" id="p-hooking">—</div>
+      </div>
+      <div class="copy-part">
+        <div class="part-meta">
+          <span class="part-name sp">맛 SP</span>
+          <span class="part-desc">이 제품이 왜 특별한지 강조해 제품 메리트 강화</span>
+        </div>
+        <div class="part-content empty" id="p-sp">—</div>
+      </div>
+      <div class="copy-part">
+        <div class="part-meta">
+          <span class="part-name trend">대세감</span>
+          <span class="part-desc">얼마나 잘 팔리는지 인기도 부각해 제품 소진 속도 강화</span>
+        </div>
+        <div class="part-content empty" id="p-trend">—</div>
+      </div>
+      <div class="copy-part">
+        <div class="part-meta">
+          <span class="part-name cause">상황(원인)</span>
+          <span class="part-desc">당사자 처한 상황을 강조하면서 가격 조정된 사유 통해 긴급성 강화</span>
+        </div>
+        <div class="part-content empty" id="p-cause">—</div>
+      </div>
+      <div class="copy-part">
+        <div class="part-meta">
+          <span class="part-name result">상황(결과)</span>
+          <span class="part-desc">당사자 처한 상황을 강조하면서 가격 조정된 사유 통해 긴급성 강화</span>
+        </div>
+        <div class="part-content empty" id="p-result">—</div>
+      </div>
+      <div class="copy-part">
+        <div class="part-meta">
+          <span class="part-name benefit">혜택</span>
+          <span class="part-desc">오늘, 내일 등 데드라인 강조로 기회 한정성 강화</span>
+        </div>
+        <div class="part-content empty" id="p-benefit">—</div>
+      </div>
+    </div>
+
+    <!-- 미리보기 -->
+    <div class="preview-panel" id="preview-panel">
+      <div class="preview-header">
+        <div class="preview-header-title">미리보기</div>
+      </div>
+      <div id="preview-scenarios"></div>
+      <div class="preview-actions">
+        <button class="act-btn primary" id="copy-btn" onclick="copyAll()">복사하기</button>
+        <button class="act-btn" onclick="exportSheet()">스프레드시트로 내보내기</button>
+      </div>
     </div>
 
   </div>
 </div>
 
-<style>
-  .res-tab { padding: 6px 16px; font-size: 12px; font-weight: 500; border-radius: var(--radius-pill); cursor: pointer; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-sub); transition: all 0.12s; }
-  .res-tab:hover { background: var(--bg); }
-  .res-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
-  .res-panel { display: none; }
-  .res-panel.active { display: block; }
-  .scenario-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 10px; }
-  .scenario-head { background: var(--accent-bg); padding: 10px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
-  .scenario-headline { font-size: 12px; font-weight: 600; color: var(--accent-text); }
-  .scenario-label { font-size: 11px; color: var(--text-hint); }
-  .scenario-body { padding: 16px; }
-  .part-label { font-size: 10px; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
-  .part-label::after { content: ''; flex: 1; height: 0.5px; background: var(--border); }
-  .part-text { font-size: 13px; line-height: 1.8; color: var(--text); margin-bottom: 14px; white-space: pre-wrap; word-break: keep-all; }
-  .part-text:last-child { margin-bottom: 0; }
-  .urgency-box { background: #fff8e7; border-left: 3px solid #e9a825; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 8px 12px; font-size: 12px; font-weight: 500; color: #7a5200; margin-top: 12px; }
-  .copy-scenario-btn { display: flex; align-items: center; gap: 5px; padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--surface); font-size: 11px; font-family: inherit; color: var(--text-sub); cursor: pointer; margin-top: 12px; transition: background 0.12s; }
-  .copy-scenario-btn:hover { background: var(--bg); }
-  .sheet-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-  .sheet-table th { background: var(--bg); padding: 7px 10px; text-align: left; font-weight: 600; color: var(--text-sub); border: 0.5px solid var(--border); white-space: nowrap; }
-  .sheet-table td { padding: 7px 10px; border: 0.5px solid var(--border); color: var(--text); vertical-align: top; line-height: 1.5; }
-  .sheet-table tr:nth-child(even) td { background: var(--bg); }
-  .copy-sheet-btn { width: 100%; padding: 9px; font-size: 12px; font-weight: 500; border-radius: var(--radius-sm); margin-top: 10px; cursor: pointer; color: var(--text-sub); border: 1px solid var(--border-strong); background: var(--surface); font-family: inherit; transition: all 0.12s; display: flex; align-items: center; justify-content: center; gap: 6px; }
-  .copy-sheet-btn:hover { background: var(--bg); }
-  .copy-sheet-btn.copied { background: #eaf3de; color: #3B6D11; border-color: #3B6D11; }
-</style>
-
 <script>
-  let currentTab = 'mistake';
   let selectedProduct = null;
-  let priceMap = { mistake: '0원', discontinue: '0원', price_up: '0원' };
-  const typeLabels = { mistake: '직원실수형', discontinue: '판매중단형', price_up: '가격인상형' };
-  const partColors = ['#2D68C4', '#1D9E75', '#7C3AED', '#854F0B'];
-  const partNames = ['파트 1 — 제품 / 맛', '파트 2 — 대세감', '파트 3 — 상황 / 명분', '파트 4 — 긴급성'];
+  let selectedType = '원가인상';
+  let priceValue = '0원';
+  let generatedScenarios = [];
 
-  function switchTab(type, el) {
-    currentTab = type;
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('tab-' + type).classList.add('active');
-    document.getElementById('results-wrap').style.display = 'none';
-    hideError();
-  }
-
+  // 제품 선택
   document.querySelectorAll('[data-group="product"]').forEach(el => {
     el.addEventListener('click', () => {
       document.querySelectorAll('[data-group="product"]').forEach(p => p.classList.remove('active'));
       el.classList.add('active');
       selectedProduct = el.dataset.value;
-      if (el.dataset.sp) document.getElementById('sp').value = el.dataset.sp;
+      const spEl = document.getElementById('sp');
+      spEl.value = el.dataset.sp || '';
     });
   });
 
-  document.querySelectorAll('[data-group="situation-preset"]').forEach(el => {
+  // 유형 선택 (단일)
+  document.querySelectorAll('[data-group="type"]').forEach(el => {
     el.addEventListener('click', () => {
-      document.querySelectorAll('[data-group="situation-preset"]').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('[data-group="type"]').forEach(t => t.classList.remove('active'));
       el.classList.add('active');
-      document.getElementById('situation-mistake').value = el.dataset.value;
+      selectedType = el.dataset.value;
     });
   });
 
-  document.querySelectorAll('.pill[data-group^="hype"], .pill[data-group^="reason"]').forEach(el => {
+  // 상황 pills (다중)
+  document.querySelectorAll('.pill[data-group^="cause"], .pill[data-group="result"]').forEach(el => {
     el.addEventListener('click', () => el.classList.toggle('active'));
   });
 
-  document.querySelectorAll('.price-preset').forEach(el => {
+  // AI 추천 pills (다중)
+  document.querySelectorAll('.ai-pill').forEach(el => {
+    el.addEventListener('click', () => el.classList.toggle('active'));
+  });
+
+  // 혜택 가격
+  document.querySelectorAll('.price-btn').forEach(el => {
     el.addEventListener('click', () => {
-      const tab = el.dataset.tab;
-      document.querySelectorAll(`.price-preset[data-tab="${tab}"]`).forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.price-btn').forEach(b => b.classList.remove('active'));
       el.classList.add('active');
-      priceMap[tab] = el.dataset.value;
-      document.getElementById('custom-price-' + tab).value = '';
+      priceValue = el.dataset.value;
+      document.getElementById('custom-price').value = '';
     });
   });
 
-  function clearPreset(tab) {
-    document.querySelectorAll(`.price-preset[data-tab="${tab}"]`).forEach(b => b.classList.remove('active'));
-    priceMap[tab] = null;
-  }
+  document.getElementById('custom-price').addEventListener('input', () => {
+    document.querySelectorAll('.price-btn').forEach(b => b.classList.remove('active'));
+    priceValue = null;
+  });
 
   function getSelected(group) {
-    return Array.from(document.querySelectorAll(`[data-group="${group}"].active`)).map(el => el.dataset.value).join(', ');
-  }
-
-  function previewImage(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = document.getElementById('preview-img');
-      const placeholder = document.querySelector('.image-placeholder');
-      img.src = e.target.result;
-      img.classList.add('loaded');
-      placeholder.style.display = 'none';
-    };
-    reader.readAsDataURL(file);
+    return Array.from(document.querySelectorAll(`[data-group="${group}"].active`))
+      .map(el => el.dataset.value).join(', ');
   }
 
   async function generate() {
     const sp = document.getElementById('sp').value.trim();
-    const customPrice = document.getElementById('custom-price-' + currentTab).value.trim();
-    const price = customPrice || priceMap[currentTab];
-    const period = document.getElementById('period-' + currentTab).value.trim();
+    const customPrice = document.getElementById('custom-price').value.trim();
+    const price = customPrice || priceValue;
+    const period = document.getElementById('period').value;
 
     if (!selectedProduct) return showError('제품을 선택해주세요.');
     if (!sp) return showError('맛(SP)을 입력해주세요.');
     if (!price) return showError('혜택 가격을 입력해주세요.');
-
     hideError();
 
-    let hype = '', reason = '', situation = '';
-    if (currentTab === 'mistake') {
-      hype = getSelected('hype');
-      situation = document.getElementById('situation-mistake').value.trim();
-    } else if (currentTab === 'discontinue') {
-      reason = getSelected('reason-discontinue');
-    } else if (currentTab === 'price_up') {
-      hype = getSelected('hype-priceup');
-      reason = getSelected('reason-priceup');
-    }
+    const causeWhat = [getSelected('cause-what'), getSelected('cause-what-ai')].filter(Boolean).join(', ');
+    const causeHow = [getSelected('cause-how'), getSelected('cause-how-ai')].filter(Boolean).join(', ');
+    const resultType = getSelected('result');
 
     const btn = document.getElementById('gen-btn');
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span>시나리오 3개 생성 중...';
-    document.getElementById('results-wrap').style.display = 'none';
 
     try {
       const res = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product: selectedProduct, sp, hype, reason, price, period, narrativeType: currentTab, situation }),
+        body: JSON.stringify({ product: selectedProduct, sp, type: selectedType, cause_what: causeWhat, cause_how: causeHow, result_type: resultType, price, period }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || '서버 오류');
-      renderResults(data.scenarios, typeLabels[currentTab]);
+      generatedScenarios = data.scenarios;
+      renderResults(data.scenarios);
     } catch (e) {
       showError('오류: ' + (e.message || '다시 시도해주세요.'));
     }
@@ -448,125 +474,67 @@
     btn.innerHTML = '다시 생성하기';
   }
 
-  function renderResults(scenarios, typeLabel) {
-    const tabsEl = document.getElementById('res-tabs');
-    const panelsEl = document.getElementById('res-panels');
-    tabsEl.innerHTML = '';
-    panelsEl.innerHTML = '';
+  function renderResults(scenarios) {
+    if (!scenarios || !scenarios.length) return;
+    const first = scenarios[0];
 
-    const labels = ['기획안 A', '기획안 B', '기획안 C'];
+    setPart('hooking', first.hooking);
+    setPart('sp', first.sp);
+    setPart('trend', first.trend);
+    setPart('cause', first.cause);
+    setPart('result', first.result);
+    setPart('benefit', first.benefit);
 
+    const container = document.getElementById('preview-scenarios');
+    container.innerHTML = '';
     scenarios.forEach((s, i) => {
-      // 탭
-      const tab = document.createElement('button');
-      tab.className = 'res-tab' + (i === 0 ? ' active' : '');
-      tab.textContent = labels[i];
-      tab.onclick = () => {
-        document.querySelectorAll('.res-tab').forEach((t, ti) => t.classList.toggle('active', ti === i));
-        document.querySelectorAll('.res-panel').forEach((p, pi) => p.classList.toggle('active', pi === i));
-      };
-      tabsEl.appendChild(tab);
-
-      // 패널
-      const panel = document.createElement('div');
-      panel.className = 'res-panel' + (i === 0 ? ' active' : '');
-
-      const parts = [s.p2, s.p3, s.p4];
-      const partColorsUsed = [partColors[1], partColors[2], partColors[3]];
-      const partNamesUsed = ['맛 + 대세감', partNames[2], partNames[3]];
-      const fullText = [s.headline, s.greeting, s.p2, s.p3, s.p4, s.closing].filter(Boolean).join('\n\n');
-
-      panel.innerHTML = `
-        <div class="scenario-card">
-          <div class="scenario-head">
-            <span class="scenario-headline">${s.headline}</span>
-            <span class="scenario-label">${s.scenario || labels[i]}</span>
-          </div>
-          <div class="scenario-body">
-            <div class="part-text" style="color:var(--text-hint); font-size:12px;">${s.greeting || ''}</div>
-            ${parts.map((p, pi) => p ? `
-              <div class="part-label" style="color:${partColorsUsed[pi]}">${partNamesUsed[pi]}</div>
-              <div class="part-text">${p}</div>
-            ` : '').join('')}
-            <div class="part-text" style="color:var(--text-hint); font-size:12px;">${s.closing || ''}</div>
-            <button class="copy-scenario-btn copy-scenario-trigger">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              이 시나리오 복사
-            </button>
-          </div>
-        </div>`;
-      panelsEl.appendChild(panel);
-
-      // 복사 버튼 이벤트 — DOM 직접 수집
-      const copyBtn = panel.querySelector('.copy-scenario-trigger');
-      copyBtn.addEventListener('click', () => {
-        const card = copyBtn.closest('.scenario-card');
-        const headline = card.querySelector('.scenario-headline')?.textContent || '';
-        const texts = Array.from(card.querySelectorAll('.part-text')).map(el => el.textContent.trim()).filter(Boolean);
-        const full = [headline, ...texts].join('\n\n');
-        navigator.clipboard.writeText(full).then(() => {
-          copyBtn.textContent = '복사됨 ✓';
-          setTimeout(() => {
-            copyBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 이 시나리오 복사';
-          }, 1500);
-        });
-      });
+      const full = [s.hooking, s.sp, s.trend, s.cause, s.result, s.benefit].filter(Boolean).join('\n\n');
+      const div = document.createElement('div');
+      div.className = 'scenario-block';
+      div.innerHTML = `<div class="scenario-num">시나리오 ${String(i+1).padStart(2,'0')} &nbsp;${s.scenario_type || ''}</div><div class="scenario-text">${escHtml(full)}</div>`;
+      container.appendChild(div);
     });
 
-    // 시트 복붙 탭
-    const sheetTab = document.createElement('button');
-    sheetTab.className = 'res-tab';
-    sheetTab.textContent = '📋 시트 복붙용';
-    sheetTab.onclick = () => {
-      document.querySelectorAll('.res-tab').forEach(t => t.classList.remove('active'));
-      sheetTab.classList.add('active');
-      document.querySelectorAll('.res-panel').forEach(p => p.classList.remove('active'));
-      sheetPanel.classList.add('active');
-    };
-    tabsEl.appendChild(sheetTab);
-
-    const sheetPanel = document.createElement('div');
-    sheetPanel.className = 'res-panel';
-    const headers = ['시나리오', '헤드라인', '파트1_제품맛', '파트2_대세감', '파트3_상황명분', '파트4_긴급성'];
-    const rows = scenarios.map((s, i) => [labels[i], s.headline, s.p1, s.p2, s.p3, s.p4]);
-    sheetPanel.innerHTML = `
-      <div style="overflow-x:auto;">
-        <table class="sheet-table" id="sheet-table">
-          <thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>
-          <tbody>${rows.map(r => `<tr>${r.map(c => `<td>${c || ''}</td>`).join('')}</tr>`).join('')}</tbody>
-        </table>
-      </div>
-      <button class="copy-sheet-btn" id="copy-sheet-btn" onclick="copySheet()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        표 전체 복사 — 구글 시트에 바로 붙여넣기
-      </button>`;
-    panelsEl.appendChild(sheetPanel);
-
-    document.getElementById('results-wrap').style.display = 'block';
+    document.getElementById('preview-panel').style.display = 'block';
   }
 
-  function copyScenario(btn, text) {
-    navigator.clipboard.writeText(text).then(() => {
-      btn.textContent = '복사됨 ✓';
-      setTimeout(() => { btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 이 시나리오 복사'; }, 1500);
-    });
+  function setPart(id, text) {
+    const el = document.getElementById('p-' + id);
+    if (!el) return;
+    el.textContent = text || '—';
+    el.className = 'part-content ' + (text ? 'filled' : 'empty');
   }
 
-  function copySheet() {
-    const table = document.getElementById('sheet-table');
-    if (!table) return;
-    const text = Array.from(table.querySelectorAll('tr')).map(r => Array.from(r.querySelectorAll('th,td')).map(c => c.innerText).join('\t')).join('\n');
+  function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function copyAll() {
+    if (!generatedScenarios.length) return;
+    const text = generatedScenarios.map((s, i) => {
+      const full = [s.hooking, s.sp, s.trend, s.cause, s.result, s.benefit].filter(Boolean).join('\n\n');
+      return `[시나리오 ${i+1} — ${s.scenario_type || ''}]\n${full}`;
+    }).join('\n\n---\n\n');
     navigator.clipboard.writeText(text).then(() => {
-      const btn = document.getElementById('copy-sheet-btn');
+      const btn = document.getElementById('copy-btn');
       btn.classList.add('copied');
-      btn.textContent = '복사 완료! 구글 시트에 붙여넣기 하세요';
-      setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 표 전체 복사 — 구글 시트에 바로 붙여넣기'; }, 2500);
+      btn.textContent = '복사 완료!';
+      setTimeout(() => { btn.classList.remove('copied'); btn.classList.add('primary'); btn.textContent = '복사하기'; }, 2000);
     });
+  }
+
+  function exportSheet() {
+    if (!generatedScenarios.length) return;
+    const headers = ['시나리오', '유형', '후킹', 'SP', '대세감', '상황원인', '상황결과', '혜택'];
+    const rows = generatedScenarios.map((s, i) => [
+      `시나리오 ${i+1}`, s.scenario_type || '', s.hooking || '', s.sp || '',
+      s.trend || '', s.cause || '', s.result || '', s.benefit || ''
+    ]);
+    const text = [headers, ...rows].map(r => r.map(c => c.replace(/\n/g,' ')).join('\t')).join('\n');
+    navigator.clipboard.writeText(text).then(() => alert('구글 시트에 붙여넣기 하세요!'));
   }
 
   function showError(msg) { const el = document.getElementById('error-msg'); el.textContent = msg; el.style.display = 'block'; }
   function hideError() { document.getElementById('error-msg').style.display = 'none'; }
 </script>
-</div>
+
 </body>
 </html>
