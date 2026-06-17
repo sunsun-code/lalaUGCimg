@@ -1,5 +1,6 @@
 {
   "rewrites": [
-    { "source": "/copy-gen", "destination": "/copy-gen/index.html" }
+    { "source": "/copy-gen", "destination": "/copy-gen/index.html" },
+    { "source": "/", "destination": "/index.html" }
   ]
 }
