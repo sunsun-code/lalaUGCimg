@@ -98,7 +98,7 @@
     .error-msg { font-size: 12px; color: #c0392b; margin-top: 8px; display: none; }
 
     /* Output panel */
-    .output-panel { position: sticky; top: 60px; max-height: calc(100vh - 72px); overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .output-panel { position: sticky; top: 60px; height: calc(100vh - 68px); overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-bottom: 20px; }
     .output-panel::-webkit-scrollbar { width: 4px; }
     .output-panel::-webkit-scrollbar-track { background: transparent; }
     .output-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
@@ -175,7 +175,7 @@
           <div class="pill-wrap">
             <div class="pill" data-group="product" data-value="생요거트 망고 파인트" data-sp="">생요거트 망고</div>
             <div class="pill" data-group="product" data-value="생요거트 복숭아 파인트" data-sp="">생요거트 복숭아</div>
-            <div class="pill" data-group="product" data-value="생요거트 플레인 파인트" data-sp="">생요거트 플레인</div>
+            <div class="pill" data-group="product" data-value="생요거트 클래린 파인트" data-sp="">생요거트 클래린</div>
             <div class="pill" data-group="product" data-value="바닐라빈 파인트" data-sp="">바닐라빈</div>
             <div class="pill" data-group="product" data-value="초콜릿 파인트" data-sp="">초콜릿</div>
             <div class="pill" data-group="product" data-value="치즈케이크 파인트" data-sp="">치즈케이크</div>
@@ -218,7 +218,7 @@
       <div class="field" style="margin-bottom:0">
         <div class="field-label">유형 <span class="label-sub">공지문 성격</span></div>
         <div class="pill-wrap">
-          <div class="type-pill" data-group="type" data-value="판매중단">판매중단</div>
+          <div class="type-pill" data-group="type" data-value="판매종단">판매종단</div>
           <div class="type-pill active" data-group="type" data-value="원가인상">원가 인상으로 제품가 인상</div>
           <div class="type-pill" data-group="type" data-value="원물수급">원물 수급 어려움</div>
           <div class="type-pill" data-group="type" data-value="신규">신규</div>
@@ -246,7 +246,7 @@
             <div class="pill-wrap">
               <div class="ai-pill" data-group="cause-what-ai" data-value="국제 정세 변동으로 인해">국제 정세</div>
               <div class="ai-pill" data-group="cause-what-ai" data-value="시즌 수요 급증으로 인해">시즌성</div>
-              <div class="ai-pill" data-group="cause-what-ai" data-value="유통 구조 변화로 인해">유통 상황</div>
+              <div class="ai-pill" data-group="cause-what-ai" data-value="유통 구조 변화로 인해">유통상황</div>
               <div class="ai-pill" data-group="cause-what-ai" data-value="내부 제조 비용 상승으로 인해">사내 갈등</div>
             </div>
           </div>
@@ -454,7 +454,7 @@
 
     const btn = document.getElementById('gen-btn');
     btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>시나리오 생성 중...';
+    btn.innerHTML = '<span class="spinner"></span>시나리오 3개 생성 중...';
 
     try {
       const res = await fetch('/api/generate', {
@@ -488,7 +488,7 @@
     const container = document.getElementById('preview-scenarios');
     container.innerHTML = '';
     scenarios.forEach((s, i) => {
-      const full = [s.hooking, s.sp, s.trend, s.cause, s.result, s.benefit].filter(Boolean).join('\n\n');
+      const full = [s.hooking, s.trend, s.cause, s.result, s.benefit].filter(Boolean).join('\n\n');
       const div = document.createElement('div');
       div.className = 'scenario-block';
       div.innerHTML = `<div class="scenario-num">시나리오 ${String(i+1).padStart(2,'0')} &nbsp;${s.scenario_type || ''}</div><div class="scenario-text">${escHtml(full)}</div>`;
@@ -510,7 +510,7 @@
   function copyAll() {
     if (!generatedScenarios.length) return;
     const text = generatedScenarios.map((s, i) => {
-      const full = [s.hooking, s.sp, s.trend, s.cause, s.result, s.benefit].filter(Boolean).join('\n\n');
+      const full = [s.hooking, s.trend, s.cause, s.result, s.benefit].filter(Boolean).join('\n\n');
       return `[시나리오 ${i+1} — ${s.scenario_type || ''}]\n${full}`;
     }).join('\n\n---\n\n');
     navigator.clipboard.writeText(text).then(() => {
