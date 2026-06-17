@@ -467,7 +467,7 @@
       panel.className = 'res-panel' + (i === 0 ? ' active' : '');
 
       const parts = [s.p1, s.p2, s.p3, s.p4];
-      const fullText = [s.greeting, s.p1, s.p2, s.p3, s.p4, s.closing].filter(Boolean).join('\n\n');
+      const fullText = [s.headline, s.greeting, s.p1, s.p2, s.p3, s.p4, s.closing].filter(Boolean).join('\n\n');
 
       panel.innerHTML = `
         <div class="scenario-card">
@@ -482,13 +482,28 @@
               <div class="part-text">${p || ''}</div>
             `).join('')}
             <div class="part-text" style="color:var(--text-hint); font-size:12px;">${s.closing || ''}</div>
-            <button class="copy-scenario-btn" onclick="copyScenario(this, ${JSON.stringify(fullText).replace(/'/g, "\\'")})">
+            <button class="copy-scenario-btn copy-scenario-trigger">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
               이 시나리오 복사
             </button>
           </div>
         </div>`;
       panelsEl.appendChild(panel);
+
+      // 복사 버튼 이벤트 — DOM 직접 수집
+      const copyBtn = panel.querySelector('.copy-scenario-trigger');
+      copyBtn.addEventListener('click', () => {
+        const card = copyBtn.closest('.scenario-card');
+        const headline = card.querySelector('.scenario-headline')?.textContent || '';
+        const texts = Array.from(card.querySelectorAll('.part-text')).map(el => el.textContent.trim()).filter(Boolean);
+        const full = [headline, ...texts].join('\n\n');
+        navigator.clipboard.writeText(full).then(() => {
+          copyBtn.textContent = '복사됨 ✓';
+          setTimeout(() => {
+            copyBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 이 시나리오 복사';
+          }, 1500);
+        });
+      });
     });
 
     // 시트 복붙 탭
